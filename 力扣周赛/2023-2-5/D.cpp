@@ -25,6 +25,7 @@ public:
                 diff[x] += 2;
             }
         }
+        // 两种策略
         sort(a.begin(), a.end());
         sort(b.begin(), b.end(), greater<int>());
         int z = min(*min_element(basket1.begin(), basket1.end()), *min_element(basket2.begin(), basket2.end()));
