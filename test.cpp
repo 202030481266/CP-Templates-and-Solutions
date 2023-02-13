@@ -36,9 +36,11 @@ int main()
 	s.emplace(2);
 	s.emplace(2);
 	s.emplace(2);
+	s.emplace(2);
 	s.emplace(3);
+	s.emplace(3)：w;
 	s.emplace(3);
-	s.emplace(3);
+	s.emplace(4);
 
 	while (*s.begin() <= 2) {
 		s.erase(s.begin());
