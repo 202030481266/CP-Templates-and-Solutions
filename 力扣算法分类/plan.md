@@ -2,4 +2,5 @@
 
  - set(rbtree) finished
  - 单调栈 finished
- - greedy algorithm ongoing
+ - greedy algorithm finished
+ - linear dynamic program Ongoing
