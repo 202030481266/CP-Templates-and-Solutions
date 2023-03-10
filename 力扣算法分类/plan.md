@@ -4,4 +4,5 @@
  - 单调栈 finished
  - greedy algorithm finished
  - linear dynamic program finished
- - Bag dynamic program ongoing
+ - Bag dynamic program finished
+ - Sequence dynamic program ongoing
