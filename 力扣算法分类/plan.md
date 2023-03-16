@@ -5,4 +5,5 @@
  - greedy algorithm finished
  - linear dynamic program finished
  - Bag dynamic program finished
- - Sequence dynamic program ongoing
+ - Sequence dynamic program finished
+ - Interval dynamic program ongoing
