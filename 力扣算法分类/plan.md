@@ -6,4 +6,6 @@
  - linear dynamic program finished
  - Bag dynamic program finished
  - Sequence dynamic program finished
- - Interval dynamic program ongoing
+ - Interval dynamic program finished
+ - Status dynamic program finished
+ - state machine dynamic program ongoing 
