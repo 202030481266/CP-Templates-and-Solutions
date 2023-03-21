@@ -8,4 +8,7 @@
  - Sequence dynamic program finished
  - Interval dynamic program finished
  - Status dynamic program finished
- - state machine dynamic program ongoing 
+ - state machine dynamic program finished 
+ - digital dynamic program finished
+ - tree dynamic program finished
+ - prefix sum ongoing
