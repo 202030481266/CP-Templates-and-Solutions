@@ -11,4 +11,3 @@
  - state machine dynamic program finished 
  - digital dynamic program finished
  - tree dynamic program finished
- - prefix sum ongoing
