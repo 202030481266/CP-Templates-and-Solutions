@@ -11,3 +11,10 @@
  - state machine dynamic program finished 
  - digital dynamic program finished
  - tree dynamic program finished
+
+
+## 0x3f高级知识点进度
+ - 01bfs 
+ - 基环树
+ - 子数组特殊运算统计问题技巧（gcd，按位或，按位与，乘法，除法等等）
+
