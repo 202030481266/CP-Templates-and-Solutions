@@ -1,5 +1,5 @@
 using namespace std;
-// 最简单的ASCII哈希方法
+// 最简单的ASCII哈希方法，进制哈希算法
 int ascii_hash(string s) {
 	int res = 0;
 	for (int i = 0; i < s.size(); ++i) res += s[i] * (i + 1);

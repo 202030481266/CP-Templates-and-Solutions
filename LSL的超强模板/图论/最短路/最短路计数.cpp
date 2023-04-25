@@ -30,7 +30,7 @@ int main() {
 				vis[v] = 1;
 				dis[v] = dis[u] + 1;
 				Q.push(v);
-			} if (dis[v] == dis[u] + 1) {
+			} if (dis[v] == dis[u] + 1) { // 这里是关键所在，松弛的过程中要添加上路径统计数
 				cnt[v] = (cnt[u] + cnt[v]) % mod;
 			}
 		}
