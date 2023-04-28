@@ -1,3 +1,4 @@
+// 网友的实现，稳定高效
 vector<string> split(const string& str, const string& delim) {  
 	vector<string> res;  
 	if("" == str) return res;  
@@ -17,3 +18,27 @@ vector<string> split(const string& str, const string& delim) {
  
 	return res;  
 } 
+
+
+// 更加简单的实现
+std::vector<std::string> split(const std::string &s, char delim) {
+    std::vector<std::string> result;
+    std::stringstream ss(s);
+    std::string item;
+    while (getline(ss, item, delim)) {
+        result.push_back(item);
+    }
+    return result;
+}
+
+int main() {
+    std::string s = "this,is,a,test";
+    char delimiter = ',';
+    std::vector<std::string> result = split(s, delimiter);
+
+    for (auto& str : result) {
+        std::cout << str << std::endl;
+    }
+
+    return 0;
+}
