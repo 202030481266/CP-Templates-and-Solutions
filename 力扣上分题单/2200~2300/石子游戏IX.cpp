@@ -1,5 +1,5 @@
 // https://leetcode.cn/problems/stone-game-ix/
-
+// 贪心 + 博弈 + 构造
 
 
 class Solution {
@@ -15,7 +15,8 @@ public:
     		else ++cnt0;
     	}
     	if ((cnt1 == 0 && cnt2 == 0) || n == 1) return false; // 没得选
-    	// 因为 0牌是最无敌的，Bob一定是有0拿0，而Alice除了一开始，后面也是这样，因为反正自己不拿就会被别人拿
+    	// 因为 0牌是最无敌的，Bob一定是有0拿0，而Alice除了一开始，后面也是这样，因为反正自己不拿就会被别人拿（实际上等价于放在前面拿）
+    	// 然而这个证明也很简单，就是假设没有0牌，那么只有1,2牌，alice和Bob能够拿到的0牌不会影响当前结果，所以最后的结局和0牌的个数奇偶有关
     	bool ans = false;
     	if (cnt0 & 1) { // Alice 先手
     		if (cnt1 > 0) ans = (ans || (cnt1 - 1 >= cnt2 + 2));
