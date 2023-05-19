@@ -1,5 +1,5 @@
 // https://leetcode.cn/problems/reverse-subarray-to-maximize-array-value/
-
+// 构造题目思维
 
 
 class Solution {
