@@ -6,11 +6,11 @@ std::map<char, int> op_priority = {
 };
 int calculate(int a, int b, char op) {
     switch(op) {
-    case '+': return a + b;
-    case '-': return a - b;
-    case '*': return a * b;
-    case '/': return a / b;
-    default: return 0;
+        case '+': return a + b;
+        case '-': return a - b;
+        case '*': return a * b;
+        case '/': return a / b;
+        default: return 0;
     }
 }
 bool isOperator(char c) {
