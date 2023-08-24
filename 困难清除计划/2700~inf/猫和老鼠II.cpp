@@ -20,7 +20,7 @@ public:
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < m; ++j) {
                 int id = i * m + j;
-                if (g[id]) {
+                if (g[id]) {  
                     while (i - dir[id][0] >= 0 && valid[i - dir[id][0]][j]) ++dir[id][0];
                     while (i + dir[id][1] < n && valid[i + dir[id][1]][j]) ++dir[id][1];
                     while (j - dir[id][2] >= 0 && valid[i][j - dir[id][2]]) ++dir[id][2];

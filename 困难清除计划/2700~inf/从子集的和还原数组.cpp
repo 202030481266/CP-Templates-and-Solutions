@@ -38,7 +38,6 @@ private:
             t.push_back(sums[right]);
             used[right] = true;
         }
-
         // 尝试包含 d 并递归求解 (n-1, s)
         vector<int> ans = dfs(n - 1, s);
         if (!ans.empty()) {
