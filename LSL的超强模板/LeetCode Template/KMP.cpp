@@ -24,6 +24,7 @@ public:
             if (needle[k] == haystack[i])
                 ++k;
             if (k == m)
+                // k = p[k - 1]， 寻找所有的位置
                 return i + 1 - m;
         }
         return -1;
