@@ -18,7 +18,6 @@ int main() {
 
     cin >> number;
 
-    bitset<64> bs(toBinary(number));
     cout << bs << endl;
 
     return EXIT_SUCCESS;
