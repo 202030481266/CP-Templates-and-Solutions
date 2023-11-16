@@ -1,5 +1,5 @@
 // 插头DP
-// 不知道爆搜能不能过掉
+// 难度很高的技术
 class Solution {
 public:
     int domino(int n, int m, vector<vector<int>>& broken) {
