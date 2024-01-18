@@ -1,18 +1,23 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void print(vector<int>& a) {
-	int n = a.size(), dp[n];
-	for (int i = 0; i < n; ++i) {
-		dp[i] = a[i];
-		cout << dp[i] << ' ';
+
+
+
+void test() {
+	vector<long long> a(10);
+	a[0] = a[1] = a[2] = 1;
+	for (int i = 3; i <= 9; ++i) {
+		for (int k = 1; k < i; ++k)
+			a[i] += a[k] * a[i - k]; 
 	}
-	cout << endl;
+	for (int i = 1; i <= 9; ++i) {
+		cout << i <<  ' ' << a[i] << endl;
+	}
 }
 
 
+
 int main() {
-	vector<int> arr{1, 2, 3};
-	print(arr);
-	return 0;
+	test();
 }
