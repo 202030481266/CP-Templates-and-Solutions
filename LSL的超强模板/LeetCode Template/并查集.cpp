@@ -1,5 +1,4 @@
 class UnionFind {
-public:
     vector<int> parent, size;
     int n, setCount;
 public:
