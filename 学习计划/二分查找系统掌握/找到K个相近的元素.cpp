@@ -2,16 +2,15 @@
 class Solution {
 public:
     vector<int> findClosestElements(const vector<int>& arr, int k, int x) {
-        int lo = 0, hi = arr.size() - k;
-        while (lo < hi) {
-            const int mi = (lo + hi) / 2;
-            if (x - arr[mi] > arr[mi + k - 1] - x) // 这里将绝对值函数去掉可以解决连续重复的数字问题
-                lo = mi + 1;
-            else hi = mi;
+        int l = -1, r = arr.size() - k;
+        while (l + 1 < r) {
+            int mid = (l + r) >> 1;
+            if (x - arr[mid] > arr[mid + k - 1] - x) 
+                l = mid;
+            else r = mid;
         }
-        if (lo > 0 && abs(arr[lo - 1] - x) <= abs(arr[lo + k - 1] - x))
-            --lo;
-        return vector<int>(arr.begin() + lo, arr.begin() + lo + k);
+        if (r > 0 && x - arr[r - 1] <= arr[r + k - 1] - x) --r;
+        return vector<int>(arr.begin() + r, arr.begin() + r + k);
     }
 };
 // 这道题可以看作求一个大小为 k 的区间，使区间内元素与 x 的距离的最大值最小，这个最大值显然只与区间两端点有关，
