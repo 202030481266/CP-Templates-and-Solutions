@@ -28,8 +28,14 @@ namespace OY {
             if (x < 0) x += mod();
             m_val = x;
         }
+        // template <typename Tp, typename std::enable_if<std::is_unsigned<Tp>::value>::type * = nullptr>
+        // StaticModInt32(Tp val) : m_val{val % mod()} {}
+        // 上面那种写法将会产生类型转换错误
         template <typename Tp, typename std::enable_if<std::is_unsigned<Tp>::value>::type * = nullptr>
-        StaticModInt32(Tp val) : m_val{val % mod()} {}
+        StaticModInt32(Tp val) {
+            Tp mod_val = static_cast<Tp>(mod());
+            m_val = static_cast<mod_type>(val >= mod_val ? val % mod_val : val);
+        }
         static mint raw(mod_type val) {
             mint res;
             res.m_val = val;
