@@ -24,3 +24,24 @@ template<typename T, uint32_t MAX_NODE>
 T Stack<T, MAX_NODE>::st[MAX_NODE];
 template<typename T, uint32_t MAX_NODE>
 uint32_t Stack<T, MAX_NODE>::st_buffer_use;
+
+class Solution {
+public:
+    int validSubarrays(vector<int>& nums) {
+        // 单调栈
+        Stack<int> s;
+        int ans = 0, n = nums.size();
+        for (int i = 0; i < nums.size(); ++i) {
+            while (!s.empty() && nums[s.top()] > nums[i]) {
+                // [s.top(), i)
+                ans += (i - s.top());
+                s.pop();
+            }
+        }
+        while (!s.empty()) {
+            ans += (n - s.top());
+            s.pop();
+        }
+        return ans;
+    }
+};
