@@ -1,4 +1,47 @@
+#include <bits/stdc++.h>
+using namespace std;
+namespace Manacher {
+    // 返回奇数长度的最大回文串，d1[i]表示右边最长回文半径， aba中，d1[1]=2
+    std::vector<int> odd_palindrome_radius(std::string s) {
+        int n = s.size();
+        vector<int> d1(s.size());
+        for (int i = 0, l = 0, r = -1; i < n; ++i) {
+            int k = (i > r ? 1 : min(d1[l + r - i], r - i + 1));
+            while (i + k < n && i - k >= 0 && s[i + k] == s[i - k]) ++k;
+            d1[i] = k--; // [0, k)
+            if (i + k > r) {
+                r = i + k;
+                l = i - k;
+            }
+        }
+        return d1;
+    }
+    // 返回偶数长度的最大回文串，d2[i]表示右边最长回文半径，abba中d2[2]=2
+    std::vector<int> even_palindrome_radius(std::string s) {
+        int n = s.size();
+        vector<int> d2(s.size());
+        for (int i = 0, l = 0, r = -1; i < n; ++i) {
+            int k = (i > r ? 0 : min(d2[l + r - i + 1], r - i + 1));
+            while (i - k - 1 >= 0 && i + k < n && s[i - k - 1] == s[i + k]) ++k;
+            d2[i] = k--; // [0, k)
+            if (i + k > r) {
+                r = i + k;
+                l = i - k - 1;
+            }
+        }
+        return d2;
+    }
+}
+int main() {
+    std::string s;
+    cin >> s;
+    std::vector<int> d1 = Manacher::odd_palindrome_radius(s);
+    std::vector<int> d2 = Manacher::even_palindrome_radius(s);
+    cout << max(*max_element(d1.begin(), d1.end()) * 2 - 1, *max_element(d2.begin(), d2.end()) * 2) << endl;
+}
+
 // 线性时间复杂度寻找到最长的回文子串
+// 下面是统一的一种写法
 
 
 char c[100010], s[100010];
