@@ -1,8 +1,3 @@
-#include<bits/stdc++.h>
-using namespace std;
-
-const int N = 3e5 + 9;
-
 template <class T> struct BIT { // 1-indexed
     int n;
     vector<T> t;
@@ -28,4 +23,24 @@ template <class T> struct BIT { // 1-indexed
         upd(r + 1, -val);
     }
     T query(int l, int r) { return query(r) - query(l - 1); }
+};
+
+class Solution {
+public:
+    int kBigIndices(vector<int>& nums, int k) {
+        int n = nums.size();
+        BIT<int> pre(n);
+        vector<int> left(n);
+        for (int i = 0; i < n; ++i) {
+            left[i] = pre.query(nums[i] - 1);
+            pre.upd(nums[i], 1);
+        }
+        int ans = 0;
+        for (int i = 0; i < n; ++i) {
+            if (left[i] >= k && pre.query(nums[i] - 1) - left[i] >= k) {
+                ++ans;
+            }
+        }
+        return ans;
+    }
 };
