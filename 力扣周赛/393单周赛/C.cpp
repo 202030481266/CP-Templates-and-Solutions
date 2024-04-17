@@ -10,7 +10,7 @@ public:
         auto check = [&](ll hi) -> bool {
             memset(f, 0, sizeof(f));
             for (int i = 1; i < (1 << n); ++i) {
-                long long lc = 1;
+                long long lc = 1; // 被 rejudge 了，woc，真的服了，不开longlong见祖宗
                 for (int j = 0; j < n; ++j) {
                     if ((i >> j) & 1) {
                         lc = lcm(lc, coins[j]);
