@@ -3,5 +3,6 @@
         "bitset": "cpp",
         "iostream": "cpp",
         "ostream": "cpp"
-    }
+    },
+    "python.REPL.enableREPLSmartSend": false
 }
