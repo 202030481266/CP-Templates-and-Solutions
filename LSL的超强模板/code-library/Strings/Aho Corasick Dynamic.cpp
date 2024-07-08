@@ -2,6 +2,7 @@
 using namespace std;
 
 const int N = 1e5 + 9;
+// 在线版本的经典AC自动机
 struct aho_corasick_static
 {
     int cnt[N], link[N], psz;

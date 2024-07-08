@@ -4,6 +4,8 @@ using namespace std;
 const int N = 1e5 + 9;
 
 //credit: Alpha_Q
+// 最常用的版本的AC自动机
+
 struct AC
 {
     int N, P;
