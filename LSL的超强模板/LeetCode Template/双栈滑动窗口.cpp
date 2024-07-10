@@ -1,5 +1,12 @@
 // https://leetcode.cn/problems/find-a-value-of-a-mysterious-function-closest-to-target/description/
 
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+using ull = unsigned long long;
+using pii = pair<int, int>;
+const int mod = 1e9 + 7;
+const int inf = 0x3f3f3f3f;
 
 const int N = 100005, inf = ~0u >> 1;
 int s[N], s1[N], l, l1;
