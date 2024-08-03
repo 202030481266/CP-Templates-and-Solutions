@@ -2,6 +2,7 @@
 using namespace std;
 
 const int mod = 998244353;
+const int maxn = 100010;
 long long fac[maxn], ifac[maxn];
 
 long long quick_power(long long a, long long b, int p) { 
