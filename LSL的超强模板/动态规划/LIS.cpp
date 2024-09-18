@@ -44,6 +44,7 @@ int main()
 
 // update 2024.9.17 LIS and LDS
 
+// LIS
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -53,33 +54,34 @@ int main()
 {
     int n; // 输入序列的长度
     cin >> n;
-    vector<int> 序列(n);
+    vector<int> sequence(n);
     for(int i = 0; i < n; i++)
     {
-        cin >> 序列[i];
+        cin >> sequence[i];
     }
 
-    vector<int> 最小末尾; // 存储长度为 i+1 的上升子序列的最小可能尾部元素
+    vector<int> minTail; // 存储长度为 i+1 的上升子序列的最小可能尾部元素
     for(int i = 0; i < n; i++)
     {
-        // 在最小末尾中找到第一个大于等于 序列[i] 的位置
-        auto it = lower_bound(最小末尾.begin(), 最小末尾.end(), 序列[i]);
-        if(it == 最小末尾.end())
+        // 在 minTail 中找到第一个大于等于 sequence[i] 的位置
+        auto it = lower_bound(minTail.begin(), minTail.end(), sequence[i]);
+        if(it == minTail.end())
         {
-            // 如果没有找到，说明 序列[i] 可以作为一个新的最长子序列的尾部
-            最小末尾.push_back(序列[i]);
+            // 如果没有找到，说明 sequence[i] 可以作为一个新的最长子序列的尾部
+            minTail.push_back(sequence[i]);
         }
         else
         {
             // 否则，用更小的值更新当前位置
-            *it = 序列[i];
+            *it = sequence[i];
         }
     }
 
-    // 最小末尾的长度即为最长严格上升子序列的长度
-    cout << "最长严格上升子序列的长度为：" << 最小末尾.size() << endl;
+    // minTail 的长度即为最长严格上升子序列的长度
+    cout << "最长严格上升子序列的长度为：" << minTail.size() << endl;
     return 0;
 }
+
 
 // LDS
 
@@ -92,31 +94,31 @@ int main()
 {
     int n; // 输入序列的长度
     cin >> n;
-    vector<int> 序列(n);
+    vector<int> sequence(n);
     for(int i = 0; i < n; i++)
     {
-        cin >> 序列[i];
+        cin >> sequence[i];
     }
 
-    vector<int> 最大末尾; // 存储长度为 i+1 的下降子序列的最大可能尾部元素
+    vector<int> maxTail; // 存储长度为 i+1 的下降子序列的最大可能尾部元素
     for(int i = 0; i < n; i++)
     {
-        // 在最大末尾中找到第一个小于等于 序列[i] 的位置
-        auto it = lower_bound(最大末尾.begin(), 最大末尾.end(), 序列[i], greater<int>());
-        if(it == 最大末尾.end())
+        // 在 maxTail 中找到第一个小于等于 sequence[i] 的位置
+        auto it = lower_bound(maxTail.begin(), maxTail.end(), sequence[i], greater<int>());
+        if(it == maxTail.end())
         {
-            // 如果没有找到，说明 序列[i] 可以作为一个新的最长子序列的尾部
-            最大末尾.push_back(序列[i]);
+            // 如果没有找到，说明 sequence[i] 可以作为一个新的最长子序列的尾部
+            maxTail.push_back(sequence[i]);
         }
         else
         {
             // 否则，用更大的值更新当前位置
-            *it = 序列[i];
+            *it = sequence[i];
         }
     }
 
-    // 最大末尾的长度即为最长严格下降子序列的长度
-    cout << "最长严格下降子序列的长度为：" << 最大末尾.size() << endl;
+    // maxTail 的长度即为最长严格下降子序列的长度
+    cout << "最长严格下降子序列的长度为：" << maxTail.size() << endl;
     return 0;
 }
 
