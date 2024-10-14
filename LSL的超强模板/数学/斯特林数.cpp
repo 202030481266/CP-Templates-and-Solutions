@@ -1,4 +1,4 @@
-// 将 n 个不同的元素划分为m个集合的方法数量
+// 将 n 个不同的元素划分为m个非空集合的方法数量
 // 可以解决任意的模数，算法复杂度O(n^2)
 typedef long long ll;
 typedef int itn;
