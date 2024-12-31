@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\\u5B66\u4E60\u8BA1\u5212",
+    "\\\u5B66\u4E60\u8BA1\u5212\\\u5DE6\u795E\u6559\u7A0B",
+    "\\\u5B66\u4E60\u8BA1\u5212\\\u5DE6\u795E\u6559\u7A0B\\\u5DE6\u504F\u6811"
   ],
-  "SelectedNode": "\\test.cpp",
+  "SelectedNode": "\\\u5B66\u4E60\u8BA1\u5212\\\u5DE6\u795E\u6559\u7A0B\\\u5DE6\u504F\u6811\\P2409 Y\u7684\u79EF\u6728.cpp",
   "PreviewInSolutionExplorer": false
 }
