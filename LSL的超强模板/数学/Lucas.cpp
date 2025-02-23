@@ -1,5 +1,6 @@
 typedef long long ll;
 
+// lucas 定理用来求解 C(n+m, n) % p的问题
 
 ll a[100010];
 int p;
