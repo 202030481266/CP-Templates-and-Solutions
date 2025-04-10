@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Kruskal's Algorithm Visualization</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    
+    .graph {
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      background-color: #f9f9f9;
+      height: 400px;
+      position: relative;
+    }
+    
+    .controls {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    button {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 10px 15px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    
+    button:disabled {
+      background-color: #cccccc;
+      cursor: not-allowed;
+    }
+    
+    .info {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #f1f1f1;
+      border-radius: 5px;
+    }
+    
+    .node {
+      stroke: #fff;
+      stroke-width: 1.5px;
+      cursor: move;
+    }
+    
+    .link {
+      stroke: #999;
+      stroke-opacity: 0.6;
+      stroke-width: 2px;
+    }
+    
+    .link.selected {
+      stroke: #ff0000;
+      stroke-width: 3px;
+    }
+    
+    .link.inMST {
+      stroke: #00cc00;
+      stroke-width: 3px;
+    }
+    
+    .weight-label {
+      font-size: 12px;
+      text-anchor: middle;
+    }
+    
+    .node-label {
+      font-size: 12px;
+      text-anchor: middle;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Kruskal's Minimum Spanning Tree Algorithm</h1>
+    
+    <div class="controls">
+      <button id="resetBtn">Reset Graph</button>
+      <button id="stepBtn">Next Step</button>
+      <button id="runBtn">Run Algorithm</button>
+    </div>
+    
+    <div id="graph" class="graph"></div>
+    
+    <div class="info">
+      <h3>Current Status: <span id="status">Ready to start</span></h3>
+      <div id="explanation">Kruskal's algorithm finds a minimum spanning tree for a connected weighted graph. It works by sorting all edges by weight and adding them one by one to the tree if they don't create a cycle.</div>
+      <p>Total MST Weight: <span id="total-weight">0</span></p>
+    </div>
+  </div>
+
+  <script>
+    // Graph settings
+    const width = 800;
+    const height = 400;
+    
+    // Create example graph
+    let nodes = [
+      { id: 0, label: "A" },
+      { id: 1, label: "B" },
+      { id: 2, label: "C" },
+      { id: 3, label: "D" },
+      { id: 4, label: "E" },
+      { id: 5, label: "F" },
+      { id: 6, label: "G" }
+    ];
+    
+    let links = [
+      { source: 0, target: 1, weight: 7 },
+      { source: 0, target: 3, weight: 5 },
+      { source: 1, target: 2, weight: 8 },
+      { source: 1, target: 3, weight: 9 },
+      { source: 1, target: 4, weight: 7 },
+      { source: 2, target: 4, weight: 5 },
+      { source: 3, target: 4, weight: 15 },
+      { source: 3, target: 5, weight: 6 },
+      { source: 4, target: 5, weight: 8 },
+      { source: 4, target: 6, weight: 9 },
+      { source: 5, target: 6, weight: 11 }
+    ];
+    
+    // Set up the SVG
+    const svg = d3.select("#graph")
+      .append("svg")
+      .attr("width", width)
+      .attr("height", height);
+    
+    // Create a group for all elements
+    const g = svg.append("g");
+    
+    // Create the force simulation
+    const simulation = d3.forceSimulation(nodes)
+      .force("link", d3.forceLink(links).id(d => d.id).distance(100))
+      .force("charge", d3.forceManyBody().strength(-400))
+      .force("center", d3.forceCenter(width / 2, height / 2))
+      .on("tick", ticked);
+    
+    // Create the visual elements
+    let linkElements = g.append("g")
+      .selectAll("line")
+      .data(links)
+      .enter().append("line")
+      .attr("class", "link");
+    
+    let nodeElements = g.append("g")
+      .selectAll("circle")
+      .data(nodes)
+      .enter().append("circle")
+      .attr("class", "node")
+      .attr("r", 20)
+      .attr("fill", d => d3.schemeCategory10[d.id % 10])
+      .call(d3.drag()
+        .on("start", dragstarted)
+        .on("drag", dragged)
+        .on("end", dragended));
+    
+    let nodeLabelElements = g.append("g")
+      .selectAll("text")
+      .data(nodes)
+      .enter().append("text")
+      .attr("class", "node-label")
+      .text(d => d.label)
+      .attr("dy", ".35em");
+    
+    let weightLabelElements = g.append("g")
+      .selectAll("text")
+      .data(links)
+      .enter().append("text")
+      .attr("class", "weight-label")
+      .text(d => d.weight)
+      .attr("dy", -5);
+    
+    // Kruskal's algorithm implementation
+    let sortedEdges = [...links].sort((a, b) => a.weight - b.weight);
+    let currentStep = 0;
+    let mstEdges = [];
+    let disjointSet = {};
+    
+    // Initialize disjoint set
+    function initDisjointSet() {
+      disjointSet = {};
+      for (let node of nodes) {
+        disjointSet[node.id] = node.id;
+      }
+    }
+    
+    // Find operation with path compression
+    function find(node) {
+      if (disjointSet[node] !== node) {
+        disjointSet[node] = find(disjointSet[node]);
+      }
+      return disjointSet[node];
+    }
+    
+    // Union operation
+    function union(node1, node2) {
+      disjointSet[find(node1)] = find(node2);
+    }
+    
+    // Reset the algorithm
+    function resetAlgorithm() {
+      currentStep = 0;
+      mstEdges = [];
+      initDisjointSet();
+      
+      // Reset the visualization
+      linkElements.attr("class", "link");
+      d3.select("#status").text("Ready to start");
+      d3.select("#total-weight").text("0");
+    }
+    
+    // Perform one step of Kruskal's algorithm
+    function stepAlgorithm() {
+      if (currentStep === 0) {
+        initDisjointSet();
+        d3.select("#status").text("Starting Kruskal's algorithm");
+        currentStep++;
+        return;
+      }
+      
+      if (currentStep > sortedEdges.length) {
+        d3.select("#status").text("Algorithm complete! MST found.");
+        d3.select("#stepBtn").property("disabled", true);
+        d3.select("#runBtn").property("disabled", true);
+        return;
+      }
+      
+      let edge = sortedEdges[currentStep - 1];
+      let source = edge.source.id !== undefined ? edge.source.id : edge.source;
+      let target = edge.target.id !== undefined ? edge.target.id : edge.target;
+      
+      // Highlight the current edge being considered
+      linkElements.filter(d => 
+        (d.source.id === source && d.target.id === target) || 
+        (d.source.id === target && d.target.id === source)
+      ).attr("class", "link selected");
+      
+      setTimeout(() => {
+        // Check if adding this edge creates a cycle
+        if (find(source) !== find(target)) {
+          // Safe to add this edge to MST
+          union(source, target);
+          mstEdges.push(edge);
+          
+          // Update the MST in the visualization
+          linkElements.filter(d => 
+            (d.source.id === source && d.target.id === target) || 
+            (d.source.id === target && d.target.id === source)
+          ).attr("class", "link inMST");
+          
+          let totalWeight = mstEdges.reduce((sum, e) => sum + e.weight, 0);
+          d3.select("#total-weight").text(totalWeight);
+          d3.select("#status").text(`Added edge ${nodes[source].label}-${nodes[target].label} with weight ${edge.weight} to MST`);
+        } else {
+          // Adding this edge would create a cycle
+          d3.select("#status").text(`Skipped edge ${nodes[source].label}-${nodes[target].label} (would create a cycle)`);
+          setTimeout(() => {
+            // Reset the highlighted edge if it's not part of MST
+            linkElements.filter(d => 
+              (d.source.id === source && d.target.id === target) || 
+              (d.source.id === target && d.target.id === source)
+            ).filter(function() {
+              return !d3.select(this).classed("inMST");
+            }).attr("class", "link");
+          }, 1000);
+        }
+        
+        currentStep++;
+        
+        // Disable the buttons if the algorithm is complete
+        if (currentStep > sortedEdges.length) {
+          d3.select("#status").text("Algorithm complete! MST found.");
+          d3.select("#stepBtn").property("disabled", true);
+          d3.select("#runBtn").property("disabled", true);
+        }
+      }, 500);
+    }
+    
+    // Run the entire algorithm automatically
+    function runAlgorithm() {
+      resetAlgorithm();
+      d3.select("#stepBtn").property("disabled", true);
+      d3.select("#runBtn").property("disabled", true);
+      
+      function runStep() {
+        if (currentStep <= sortedEdges.length) {
+          stepAlgorithm();
+          setTimeout(runStep, 1500);
+        } else {
+          d3.select("#stepBtn").property("disabled", true);
+          d3.select("#runBtn").property("disabled", true);
+        }
+      }
+      
+      runStep();
+    }
+    
+    // Force simulation tick function
+    function ticked() {
+      linkElements
+        .attr("x1", d => d.source.x)
+        .attr("y1", d => d.source.y)
+        .attr("x2", d => d.target.x)
+        .attr("y2", d => d.target.y);
+      
+      nodeElements
+        .attr("cx", d => d.x)
+        .attr("cy", d => d.y);
+      
+      nodeLabelElements
+        .attr("x", d => d.x)
+        .attr("y", d => d.y);
+      
+      weightLabelElements
+        .attr("x", d => (d.source.x + d.target.x) / 2)
+        .attr("y", d => (d.source.y + d.target.y) / 2);
+    }
+    
+    // Drag functions
+    function dragstarted(event, d) {
+      if (!event.active) simulation.alphaTarget(0.3).restart();
+      d.fx = d.x;
+      d.fy = d.y;
+    }
+    
+    function dragged(event, d) {
+      d.fx = event.x;
+      d.fy = event.y;
+    }
+    
+    function dragended(event, d) {
+      if (!event.active) simulation.alphaTarget(0);
+      d.fx = null;
+      d.fy = null;
+    }
+    
+    // Set up event listeners
+    d3.select("#resetBtn").on("click", function() {
+      resetAlgorithm();
+      d3.select("#stepBtn").property("disabled", false);
+      d3.select("#runBtn").property("disabled", false);
+    });
+    
+    d3.select("#stepBtn").on("click", stepAlgorithm);
+    d3.select("#runBtn").on("click", runAlgorithm);
+    
+    // Initialize
+    resetAlgorithm();
+  </script>
+</body>
+</html>
