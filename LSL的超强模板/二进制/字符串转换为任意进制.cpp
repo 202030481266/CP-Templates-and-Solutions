@@ -11,6 +11,7 @@ std::pair<std::string, int> divideLargeString(const std::string& number, int div
     long long current_remainder = 0; // Use long long for intermediate calculation
     bool leading_zero = true; // To handle leading zeros in the quotient
 
+    // 长除法的原理，模拟除法
     for (char digit_char : number) {
         if (!isdigit(digit_char)) {
             throw std::invalid_argument("Input string contains non-digit characters.");
