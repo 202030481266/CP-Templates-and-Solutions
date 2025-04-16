@@ -83,16 +83,107 @@ vector<int> SA_IS(const vector<int>& vec, int val_range) {
     return SA;
 }
 
-int main() {
-    string s;
-    cin >> s;
-    vector<int> arr(s.size() + 1);
-    copy(begin(s), end(s), begin(arr));
-    arr.back() = '$';
-    auto sa = SA_IS(arr, 128);
-    sa.erase(sa.begin());
-    for (int i = 0; i < sa.size(); ++i) {
-        if (i < sa.size()) cout << sa[i]+1 << ' ';
-        else cout << sa[i]+1 << endl;
-    }
+vector<int> suffix_array(const string &s, const int LIM = 128) {
+    vector<int> vec(s.size() + 1);
+    copy(begin(s), end(s), begin(vec));
+    vec.back() = '$';
+    auto ret = SA_IS(vec, LIM);
+    ret.erase(ret.begin());
+    return ret;
 }
+
+struct SuffixArray {
+    int n;
+    string s;
+    vector<int> sa, rank, lcp;
+    vector<vector<int>> t;
+    vector<int> lg;
+    SuffixArray() {}
+    SuffixArray(string _s) {
+        n = _s.size();
+        s = _s;
+        sa = suffix_array(s);
+        rank.resize(n);
+        for (int i = 0; i < n; i++) rank[sa[i]] = i;
+        costruct_lcp();
+        prec();
+        build();
+    }
+    void costruct_lcp() {
+        int k = 0;
+        lcp.resize(n - 1, 0);
+        for (int i = 0; i < n; i++) {
+            if (rank[i] == n - 1) {
+                k = 0;
+                continue;
+            }
+            int j = sa[rank[i] + 1];
+            while (i + k < n && j + k < n && s[i + k] == s[j + k])  k++;
+            lcp[rank[i]] = k;
+            if (k)  k--;
+        }
+    }
+    void prec() {
+        lg.resize(n, 0);
+        for (int i = 2; i < n; i++) lg[i] = lg[i / 2] + 1;
+    }
+    void build() {
+        int sz = n - 1;
+        t.resize(sz);
+        for (int i = 0; i < sz; i++) {
+            t[i].resize(LG);
+            t[i][0] = lcp[i];
+        }
+        for (int k = 1; k < LG; ++k) {
+            for (int i = 0; i + (1 << k) - 1 < sz; ++i) {
+                t[i][k] = min(t[i][k - 1], t[i + (1 << (k - 1))][k - 1]);
+            }
+        }
+    }
+    int query(int l, int r) {  // minimum of lcp[l], ..., lcp[r]
+        int k = lg[r - l + 1];
+        return min(t[l][k], t[r - (1 << k) + 1][k]);
+    }
+    int get_lcp(int i, int j) {   // lcp of suffix starting from i and j
+        if (i == j) return n - i;
+        int l = rank[i], r = rank[j];
+        if (l > r) swap(l, r);
+        return query(l, r - 1);
+    }
+    int lower_bound(string &t) {
+        int l = 0, r = n - 1, k = t.size(), ans = n;
+        while (l <= r) {
+            int mid = l + r >> 1;
+            if (s.substr(sa[mid], min(n - sa[mid], k)) >= t) ans = mid, r = mid - 1;
+            else l = mid + 1;
+        }
+        return ans;
+    }
+    int upper_bound(string &t) {
+        int l = 0, r = n - 1, k = t.size(), ans = n;
+        while (l <= r) {
+            int mid = l + r >> 1;
+            if (s.substr(sa[mid], min(n - sa[mid], k)) > t) ans = mid, r = mid - 1;
+            else l = mid + 1;
+        }
+        return ans;
+    }
+    // occurrences of s[p, ..., p + len - 1]
+    pair<int, int> find_occurrence(int p, int len) {
+        p = rank[p];
+        pair<int, int> ans = {p, p};
+        int l = 0, r = p - 1;
+        while (l <= r) {
+            int mid = l + r >> 1;
+            if (query(mid, p - 1) >= len) ans.first = mid, r = mid - 1;
+            else l = mid + 1;
+        }
+        l = p + 1, r = n - 1;
+        while (l <= r) {
+            int mid = l + r >> 1;
+            if (query(p, mid - 1) >= len) ans.second = mid, l = mid + 1;
+            else r = mid - 1;
+        }
+        return ans;
+    }
+};
