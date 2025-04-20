@@ -3,7 +3,8 @@
         "bitset": "cpp",
         "iostream": "cpp",
         "ostream": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "vector": "cpp"
     },
     "python.REPL.enableREPLSmartSend": false,
     "C_Cpp.errorSquiggles": "disabled"
