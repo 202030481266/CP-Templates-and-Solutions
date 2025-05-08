@@ -1,5 +1,7 @@
 // 子树哈希, y1(hashy1)y2(hashy2)...ym(hashym)
 // 使用全局的ID表示结构，而不使用字符串
+// https://leetcode.cn/problems/find-duplicate-subtrees/
+
 class Solution {
 public:
     vector<TreeNode*> findDuplicateSubtrees(TreeNode* root) {
