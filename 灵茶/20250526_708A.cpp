@@ -13,10 +13,13 @@ int main() {
     cin >> s;
     int n = s.size();
     string ans;
+    bool use = false;
     for (int i = 0; i < n; ++i) {
         int c = s[i] - 'a', pre = (c + 25) % 26;
-        if (pre < c) {
-        	int j = i;
+        if (pre < c || (i == n-1 && !use)) {
+            use = true;
+            ans.push_back(pre + 'a');
+        	int j = i + 1;
             for (; j < n; ++j) {
                 pre = (s[j] - 'a' + 25) % 26;
                 if (pre < s[j] - 'a')
