@@ -76,7 +76,7 @@ int main() {
 
 
 // KMP 周期的做法
-// 常数小的多，还没有被卡
+// 常数小的多
 #include <iostream>
 #include <vector>
 #include <string>
