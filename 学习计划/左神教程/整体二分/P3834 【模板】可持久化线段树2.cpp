@@ -26,12 +26,6 @@ int sum(int pos) {
     return res;
 }
 void dfs(int ql, int qr, int vl, int vr) {
-#ifdef DEBUG
-	cout << "debug : " << ql << ' ' << qr << ' ' << vl << ' ' << vr << endl;
-    for (int i = ql; i <= qr; ++i) {
-    	cout << queries[qid[i]].l << ' ' << queries[qid[i]].r << ' ' << queries[qid[i]].k << endl;
-    }
-#endif
     if (vl == vr) {
         for (int i = ql; i <= qr; ++i) {
             ans[qid[i]] = arr[ids[vl]];
@@ -48,27 +42,10 @@ void dfs(int ql, int qr, int vl, int vr) {
         if (ok) lStk[lSiz++] = qid[i];
         else rStk[rSiz++] = qid[i];
     }
-#ifdef DEBUG
-	cout << "Before change : " << endl;
-	for (int i = ql; i <= qr; ++i) {
-    	cout << queries[qid[i]].l << ' ' << queries[qid[i]].r << ' ' << queries[qid[i]].k << endl;
-    }
-#endif
     qSiz = ql;
     for (int i = 0; i < lSiz; ++i) qid[qSiz++] = lStk[i];
     for (int i = 0; i < rSiz; ++i) qid[qSiz++] = rStk[i];
     int tmp = lSiz;
-#ifdef DEBUG
-    cout << "debug qid left side:" << endl;
-    cout << "left size : " << tmp << endl;
-    for (int i = ql; i <= ql + tmp - 1; ++i) {
-    	cout << queries[qid[i]].l << ' ' << queries[qid[i]].r << ' ' << queries[qid[i]].k << endl;
-    }
-    cout << "debug qid right side:" << endl;
-    for (int i = ql + tmp; i <= qr; ++i) {
-    	cout << queries[qid[i]].l << ' ' << queries[qid[i]].r << ' ' << queries[qid[i]].k << endl;
-    }
-#endif
     dfs(ql, ql + tmp - 1, vl, mid);
     dfs(ql + tmp, qr, mid+1, vr);
 }
@@ -84,9 +61,6 @@ int main() {
     sort(ids + 1, ids + n + 1, [&](int i, int j){
         return arr[i] < arr[j];
     });
-#ifdef DEBUG
-    for (int i = 1; i <= n; ++i) cout << ids[i] << ' '; cout << endl;
-#endif
     for (int i = 1; i <= m; ++i) {
         cin >> queries[i].l >> queries[i].r >> queries[i].k;
     }
