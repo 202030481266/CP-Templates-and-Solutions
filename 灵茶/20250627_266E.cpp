@@ -14,7 +14,8 @@ int n, m;
 static constexpr int mod = 1e9 + 7;
 static constexpr int maxn = 100005;
 
-// 帕斯卡三角组合数作为系数，总结出系数的偏移计算公式
+// 线段树 + 展开式
+
 ll pw[maxn][6];
 ll pws[maxn][6];
 ll coe[6][6] = {
