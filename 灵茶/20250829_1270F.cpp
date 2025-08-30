@@ -188,3 +188,48 @@ namespace FastIO {
 using namespace FastIO;
 
 static constexpr int maxn = 2e5 + 7;
+
+string s;
+int sum[maxn], pre[maxn], cnt[90000000];
+
+int main() {
+	read(s);
+	int n = s.size(), blen = sqrt(n / 2);
+	for (int i = 1; i <= n; ++i) sum[i] = sum[i - 1] + (s[i - 1] == '1');
+	ll ans = 0;
+	int offset = 0;
+	for (int i = 1; i < blen; ++i) {
+		for (int j = 1; j <= n; ++j) offset = min(offset, j - sum[j] * i);
+	}
+	offset *= -1;
+	 for (int i = 1; i < blen; ++i) {
+		 // i * s[r] - i * s[l] = r - l -> r - i * s[r] = l - i * s[l]
+		 cnt[0 + offset] = 1;
+		 for (int r = 1; r <= n; ++r) {
+			 ans += cnt[r - i * sum[r] + offset];
+			 ++cnt[r - i * sum[r] + offset];
+		 }
+		 for (int r = 1; r <= n; ++r) {
+			 cnt[r - i * sum[r] + offset] = 0;
+		 }
+	 }
+	int pos = 0;
+	for (int i = 1; i <= n; ++i) {
+		pre[i] = pos;
+		if (s[i - 1] == '1') pos = i;
+	}
+	for (int i = blen, j; i <= n; ++i) {
+		if (sum[i] == 0) continue; // 没有 1
+		if (s[i - 1] == '1') j = i;
+		else j = pre[i];
+		while (j > 0) {
+			int p = pre[j], tot = sum[i] - sum[p];
+			// tot 个 1, (p, j] 到 i，整除 tot, [i - j + 1, i - p] -> (i - j, i - p], 并且长度至少大于等于 tot*blen
+			int mn = max(tot * blen, i - j + 1);
+			if (mn <= i - p) ans += (i - p) / tot - (mn - 1) / tot;
+			if ((tot + 1) * blen <= i - p + 1) j = p;
+			else j = i - (tot + 1) * blen + 1;
+		}
+	}
+	writeln(ans);
+}

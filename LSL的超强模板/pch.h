@@ -49,13 +49,4 @@
 #include <limits>
 #include <bitset>
 
-using namespace std;
-
-// 可以定义一些常用的类型别名
-typedef long long ll;
-typedef unsigned long long ull;
-typedef unsigned int uint;
-typedef pair<int, int> pii;
-typedef vector<int> vi;
-
 #endif //PCH_H
