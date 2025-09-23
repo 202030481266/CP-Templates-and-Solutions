@@ -1,5 +1,5 @@
 namespace FastIO {
-	const int BUFSIZE = 1 << 20; // 1MB缓冲区
+	constexpr int BUFSIZE = 1 << 20; // 1MB缓冲区
 	char ibuf[BUFSIZE], obuf[BUFSIZE];
 	char* p1 = ibuf, * p2 = ibuf;
 	char* p3 = obuf;
@@ -33,7 +33,7 @@ namespace FastIO {
 	inline void write(const string& s) {
 		for (char c : s) pc(c);
 	}
-	
+
 	// 输出C风格字符串
 	inline void write(const char* s) {
 		while (*s) pc(*s++);
@@ -41,7 +41,7 @@ namespace FastIO {
 
 	// 读取整数（支持负数）
 	template<typename T>
-	inline typename enable_if<is_integral<T>::value, bool>::type read(T& x) {
+	inline enable_if_t<is_integral_v<T>, bool> read(T& x) {
 		x = 0;
 		char c = gc();
 		bool neg = false;
@@ -68,27 +68,27 @@ namespace FastIO {
 
 	// 读取浮点数
 	template<typename T>
-	inline typename enable_if<is_floating_point<T>::value, bool>::type read(T& x) {
+	inline enable_if_t<is_floating_point_v<T>, bool> read(T& x) {
 		x = 0;
 		char c = gc();
 		bool neg = false;
-		
+
 		// 跳过空白字符
 		while (c != EOF && !isdigit(c) && c != '-' && c != '.') c = gc();
 		if (c == EOF) return false;
-		
+
 		// 处理负号
 		if (c == '-') {
 			neg = true;
 			c = gc();
 		}
-		
+
 		// 读取整数部分
 		while (isdigit(c)) {
 			x = x * 10 + (c - '0');
 			c = gc();
 		}
-		
+
 		// 读取小数部分
 		if (c == '.') {
 			c = gc();
@@ -99,7 +99,7 @@ namespace FastIO {
 				c = gc();
 			}
 		}
-		
+
 		// 处理科学计数法
 		if (c == 'e' || c == 'E') {
 			c = gc();
@@ -118,14 +118,14 @@ namespace FastIO {
 			if (exp_neg) exp = -exp;
 			x *= pow(10, exp);
 		}
-		
+
 		if (neg) x = -x;
 		return true;
 	}
 
 	// 输出整数
 	template<typename T>
-	inline typename enable_if<is_integral<T>::value>::type write(T x) {
+	inline enable_if_t<is_integral_v<T>> write(T x) {
 		static char stk[30];
 		int top = 0;
 
@@ -151,12 +151,12 @@ namespace FastIO {
 
 	// 输出浮点数（默认6位小数）
 	template<typename T>
-	inline typename enable_if<is_floating_point<T>::value>::type write(T x, int precision = 6) {
+	inline enable_if_t<is_floating_point_v<T>> write(T x, int precision = 6) {
 		if (x < 0) {
 			pc('-');
 			x = -x;
 		}
-		
+
 		// 处理特殊值
 		if (isnan(x)) {
 			write("nan");
@@ -166,26 +166,26 @@ namespace FastIO {
 			write("inf");
 			return;
 		}
-		
+
 		// 四舍五入
 		T round_val = 0.5;
 		for (int i = 0; i < precision; i++) {
 			round_val /= 10;
 		}
 		x += round_val;
-		
+
 		// 输出整数部分
-		ll int_part = (ll)x;
+		auto int_part = static_cast<long long>(x);
 		write(int_part);
-		
+
 		// 输出小数点和小数部分
 		if (precision > 0) {
 			pc('.');
 			x -= int_part;
 			for (int i = 0; i < precision; i++) {
 				x *= 10;
-				int digit = (int)x;
-				pc('0' + digit);
+				int digit = static_cast<int>(x);
+				pc('0' + digit); // NOLINT(*-narrowing-conversions)
 				x -= digit;
 			}
 		}
@@ -193,14 +193,14 @@ namespace FastIO {
 
 	// 输出整数并换行
 	template<typename T>
-	inline typename enable_if<is_integral<T>::value>::type writeln(T x) {
+	inline enable_if_t<is_integral_v<T>> writeln(T x) {
 		write(x);
 		pc('\n');
 	}
 
 	// 输出浮点数并换行
 	template<typename T>
-	inline typename enable_if<is_floating_point<T>::value>::type writeln(T x, int precision = 6) {
+	inline enable_if_t<is_floating_point_v<T>> writeln(T x, int precision = 6) {
 		write(x, precision);
 		pc('\n');
 	}
