@@ -20,17 +20,35 @@ void solve() {
         }
     }
     vector<int> row(n), col(m);
-    row[x] = arr[x][y];
-    col[y] = 0;
-    for (int i = 0; i < n; ++i) {
-        if (i != x) {
-            row[i] = arr[i][y] - col[y];
+    int tot = 0, mn = inf, best = 0;
+    for (int r = 0; r <= arr[x][y]; ++r) {
+        tot = 0;
+        row[x] = r;
+        col[y] = arr[x][y] - r;
+        for (int i = 0; i < n; ++i) {
+            if (i != x) {
+                row[i] = arr[i][y] - col[y];
+            }
+            tot += row[i];
+        }
+        for (int i = 0; i < m; ++i) {
+            if (i != y) {
+                col[i] = arr[x][i] - row[x];
+            }
+            tot += col[i];
+        }
+        if (tot < mn) {
+            mn = tot;
+            best = r;
         }
     }
+    row[x] = best;
+    col[y] = arr[x][y] - best;
+    for (int i = 0; i < n; ++i) {
+        if (i != x) row[i] = arr[i][y] - col[y];
+    }
     for (int i = 0; i < m; ++i) {
-        if (i != y) {
-            col[i] = arr[x][i] - row[x];
-        }
+        if (i != y) col[i] = arr[x][i] - row[x];
     }
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < m; ++j) {
@@ -40,6 +58,7 @@ void solve() {
             }
         }
     }
+    cout << mn << '\n';
     for (int i = 0; i < n; ++i) {
         while (row[i]--) {
             cout << "row " << i + 1 << '\n';
