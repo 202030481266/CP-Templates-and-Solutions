@@ -319,8 +319,8 @@ static constexpr int INF = 0x3f3f3f3f;
 static constexpr ll LLINF = 0x3f3f3f3f3f3f3f3f;
 static constexpr int MOD = 1e9 + 7;
 
-int n;
-int arr[MAXN], cnt[MAXN], idx[MAXN];
+int n, tot;
+int arr[MAXN], cnt[MAXN], ans[MAXN], cur[MAXN], num[MAXN];
 
 void solve() {
 	read(n);
@@ -329,17 +329,20 @@ void solve() {
 		++cnt[arr[i]];
 	}
 	for (int i = 1; i <= n; ++i) {
-		if (cnt[arr[i]] != n - arr[i]) {
-			writeln("Impossible");
-			return;
+		if (!cur[arr[i]]) {
+			if (cnt[arr[i]] < n - arr[i]) {
+				writeln("Impossible");
+				return;
+			}
+			cnt[arr[i]] -= n - arr[i];
+			cur[arr[i]] = n - arr[i];
+			num[arr[i]] = ++tot;
 		}
+		--cur[arr[i]];
+		ans[i] = num[arr[i]];
 	}
 	writeln("Possible");
-	int tot = 1;
-	for (int i = 1; i <= n; ++i) {
-		if (!idx[arr[i]]) idx[arr[i]] = tot++;
-		write(idx[arr[i]], ' ');
-	}
+	for (int i = 1; i <= n; ++i) write(ans[i], ' ');
 }
 
 int main() {
