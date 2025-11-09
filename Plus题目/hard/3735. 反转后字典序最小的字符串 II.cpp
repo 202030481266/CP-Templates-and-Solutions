@@ -1,5 +1,11 @@
 #include <bits/stdc++.h>
 using namespace std;
+using ll = long long;
+using pii = pair<int, int>;
+using vi = vector<int>;
+using vii = vector<vector<int>>;
+static constexpr int mod = 1e9 + 7;
+static constexpr int inf = 0x3f3f3f3f;
 
 const int N = 3e5 + 9;
 const int LG = 18;
@@ -188,5 +194,49 @@ struct SuffixArray {
             else r = mid - 1;
         }
         return ans;
+    }
+};
+
+
+class Solution {
+public:
+    string lexSmallest(string s) {
+        int n = s.size();
+        string t;
+        t.reserve(2 * n + 1);
+        t.append(s.rbegin(), s.rend());
+        t.push_back('%');
+        t.append(s);
+        SuffixArray sa(t);
+        auto cmp = [&](int a, int b, int c, int d) -> int {
+            int pre_lcp = sa.get_lcp(a, c);
+            if (pre_lcp >= min(b - a, d - c)) return (b - a) - (d - c);
+            return sa.rank[a] - sa.rank[c];
+        };
+
+        int ans = 1;
+        for (int i = 2; i <= n; ++i) {
+            int r = cmp(n - i , n - i + ans, n - ans, n);
+            if (r < 0 || r == 0 && cmp(n - i + ans, n, n + 1 + ans, n + 1 + i) < 0) ans = i;
+        }
+
+        string result;
+        result.reserve(n);
+        result.append(s.rbegin() + n - ans, s.rend());
+        result.append(s.begin() + ans, s.end());
+
+        if (s[0] == result[0]) {
+            ans = 1;
+            for (int i = 2; i <= n; ++i) {
+                int r = cmp(0, i - ans, 2 * n + 1 - i, 2 * n + 1 - ans);
+                if (r < 0 || r == 0 && cmp(i - ans, i, 0, ans) < 0) ans = i;
+            } 
+            string tmp;
+            tmp.reserve(n);
+            tmp.append(s.begin(), s.begin() + n - ans);
+            tmp.append(s.rbegin(), s.rbegin() + ans);
+            result = min(result, tmp);
+        }
+        return result;
     }
 };
