@@ -83,5 +83,6 @@
         "variant": "cpp"
     },
     "python.REPL.enableREPLSmartSend": false,
-    "C_Cpp.errorSquiggles": "disabled"
+    "C_Cpp.errorSquiggles": "disabled",
+    "C_Cpp.default.compilerPath": "D:/mingw64/bin/g++.exe"
 }
