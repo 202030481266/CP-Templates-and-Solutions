@@ -1,0 +1,1 @@
+1..12 | ForEach-Object { New-Item -ItemType Directory -Name "${_}月份" -Force }
