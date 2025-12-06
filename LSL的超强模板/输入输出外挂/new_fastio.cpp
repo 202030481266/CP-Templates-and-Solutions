@@ -1,5 +1,48 @@
+#ifdef _MSC_VER
+#include "pch.h"
+#else
+#include <bits/stdc++.h>
+#endif
+
+using namespace std;
+
+typedef long long ll;
+typedef unsigned long long ull;
+typedef unsigned int uint;
+typedef std::pair<int, int> pii;
+typedef std::vector<int> vi;
+typedef std::vector<vector<int>> vii;
+
+void __print(int x) { cerr << x; }
+void __print(long x) { cerr << x; }
+void __print(long long x) { cerr << x; }
+void __print(unsigned x) { cerr << x; }
+void __print(unsigned long x) { cerr << x; }
+void __print(unsigned long long x) { cerr << x; }
+void __print(float x) { cerr << x; }
+void __print(double x) { cerr << x; }
+void __print(long double x) { cerr << x; }
+void __print(char x) { cerr << '\'' << x << '\''; }
+void __print(const char* x) { cerr << '\"' << x << '\"'; }
+void __print(const string& x) { cerr << '\"' << x << '\"'; }
+void __print(bool x) { cerr << (x ? "true" : "false"); }
+
+template<typename T, typename V>
+void __print(const pair<T, V>& x) { cerr << '{'; __print(x.first); cerr << ','; __print(x.second); cerr << '}'; }
+template<typename T>
+void __print(const T& x) { int f = 0; cerr << '{'; for (auto& i : x) cerr << (f++ ? "," : ""), __print(i); cerr << "}"; }
+void _print() { cerr << "]\n"; }
+template <typename T, typename... V>
+void _print(T t, V... v) { __print(t); if (sizeof...(v)) cerr << ", "; _print(v...); }
+
+#ifndef ONLINE_JUDGE
+#define debug(...) cerr << "[" << #__VA_ARGS__ << "] = ["; _print(__VA_ARGS__)
+#else
+#define debug(...)
+#endif
+
 namespace FastIO {
-	constexpr int BUFSIZE = 1 << 20; // 1MB缓冲区
+	const int BUFSIZE = 1 << 20; // 1MB缓冲区
 	char ibuf[BUFSIZE], obuf[BUFSIZE];
 	char* p1 = ibuf, * p2 = ibuf;
 	char* p3 = obuf;
@@ -41,7 +84,7 @@ namespace FastIO {
 
 	// 读取整数（支持负数）
 	template<typename T>
-	inline enable_if_t<is_integral_v<T>, bool> read(T& x) {
+	inline typename enable_if<is_integral<T>::value, bool>::type read(T& x) {
 		x = 0;
 		char c = gc();
 		bool neg = false;
@@ -68,7 +111,7 @@ namespace FastIO {
 
 	// 读取浮点数
 	template<typename T>
-	inline enable_if_t<is_floating_point_v<T>, bool> read(T& x) {
+	inline typename enable_if<is_floating_point<T>::value, bool>::type read(T& x) {
 		x = 0;
 		char c = gc();
 		bool neg = false;
@@ -108,7 +151,8 @@ namespace FastIO {
 			if (c == '-') {
 				exp_neg = true;
 				c = gc();
-			} else if (c == '+') {
+			}
+			else if (c == '+') {
 				c = gc();
 			}
 			while (isdigit(c)) {
@@ -125,7 +169,7 @@ namespace FastIO {
 
 	// 输出整数
 	template<typename T>
-	inline enable_if_t<is_integral_v<T>> write(T x) {
+	inline typename enable_if<is_integral<T>::value>::type write(T x) {
 		static char stk[30];
 		int top = 0;
 
@@ -151,7 +195,7 @@ namespace FastIO {
 
 	// 输出浮点数（默认6位小数）
 	template<typename T>
-	inline enable_if_t<is_floating_point_v<T>> write(T x, int precision = 6) {
+	inline typename enable_if<is_floating_point<T>::value>::type write(T x, int precision = 6) {
 		if (x < 0) {
 			pc('-');
 			x = -x;
@@ -175,7 +219,7 @@ namespace FastIO {
 		x += round_val;
 
 		// 输出整数部分
-		auto int_part = static_cast<long long>(x);
+		ll int_part = (ll)x;
 		write(int_part);
 
 		// 输出小数点和小数部分
@@ -184,8 +228,8 @@ namespace FastIO {
 			x -= int_part;
 			for (int i = 0; i < precision; i++) {
 				x *= 10;
-				int digit = static_cast<int>(x);
-				pc('0' + digit); // NOLINT(*-narrowing-conversions)
+				int digit = (int)x;
+				pc('0' + digit);
 				x -= digit;
 			}
 		}
@@ -193,16 +237,30 @@ namespace FastIO {
 
 	// 输出整数并换行
 	template<typename T>
-	inline enable_if_t<is_integral_v<T>> writeln(T x) {
+	inline typename enable_if<is_integral<T>::value>::type writeln(T x) {
 		write(x);
 		pc('\n');
 	}
 
+	// 输出整数和分隔符
+	template<typename T>
+	inline typename enable_if<is_integral<T>::value>::type write(T x, char sep) {
+		write(x);
+		pc(sep);
+	}
+
 	// 输出浮点数并换行
 	template<typename T>
-	inline enable_if_t<is_floating_point_v<T>> writeln(T x, int precision = 6) {
+	inline typename enable_if<is_floating_point<T>::value>::type writeln(T x, int precision = 6) {
 		write(x, precision);
 		pc('\n');
+	}
+
+	// 输出浮点数并且和分隔符
+	template<typename T>
+	inline typename enable_if<is_floating_point<T>::value>::type write(T x, char sep) {
+		write(x);
+		pc(sep);
 	}
 
 	// 读取字符串（读到空白字符为止）
@@ -254,3 +312,9 @@ namespace FastIO {
 		~AutoFlush() { flush(); }
 	} auto_flush;
 }
+using namespace FastIO;
+
+static constexpr int MAXN = 300005;
+static constexpr int INF = 0x3f3f3f3f;
+static constexpr ll LLINF = 0x3f3f3f3f3f3f3f3f;
+static constexpr int MOD = 998244353;
