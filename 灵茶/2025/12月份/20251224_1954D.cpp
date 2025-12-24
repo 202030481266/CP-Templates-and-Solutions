@@ -868,26 +868,17 @@ void solve() {
 	for (int& v : arr) read(v);
 	int N = 0;
 	for (int v : arr) N += v;
-	mint ans = 0;
-	vector<mint> fac(N + 1), ifac(N + 1);
-	fac[0] = 1;
-	for (int i = 1; i <= N; ++i) fac[i] = fac[i - 1] * modint::raw(i);
-	ifac[N] = fac[N].inv();
-	for (int i = n - 1; i >= 0; --i) ifac[i] = ifac[i + 1] * modint::raw(i + 1);
-	auto C = [&](int n, int m) -> mint {
-		if (m > n) return 0;
-		return fac[n] * ifac[m] * ifac[n - m];
-	};
-	for (int i = 1; i <= N; ++i) {
-		int half = (i + 1) / 2;
-		mint tot = C(N, i);
-		mint bg = 0;
-		for (int j = 1; j <= n; ++j) {
-			if (arr[j] > half) {
-
-			}
-		}
-	}
+    vector<mint> dp(N + 1);
+    mint ans = 0;
+    dp[0] = 1;
+    ranges::sort(arr);
+    for (int i = 0; i < n; ++i) {
+        for (int s = N; s >= arr[i]; --s) {
+            ans = ans + dp[s - arr[i]] * max(arr[i], (s + 1) / 2);
+            dp[s] += dp[s - arr[i]];
+        }
+    }
+    writeln(ans.val());
 }
 
 int main() {
