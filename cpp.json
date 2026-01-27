@@ -1,0 +1,132 @@
+{
+    "cp-algorithm-header": {
+        "prefix": "cp-header",
+        "body": [
+            "#include <bits/stdc++.h>",
+            "using namespace std;",
+            "using ll = long long;",
+            "using pii = pair<int, int>;",
+            "using vi = vector<int>;",
+            "using vii = vector<vector<int>>;",
+            "using vl = vector<long long>;",
+            "using vll = vector<vector<long long>>;",
+            "static constexpr int INF = 0x3f3f3f3f;",
+            "static constexpr ll LLINF = 0x3f3f3f3f3f3f3f3f;"
+        ],
+        "description": "Common Macros of cp-algorithm code"
+    },
+    "cp-algorithm-fastio": {
+        "prefix": "fastio",
+        "body": [
+            "ios::sync_with_stdio(false);",
+            "cin.tie(nullptr);"
+        ],
+        "description": "Fast IO by closing the sync stream"
+    },
+    "C++ Colored Output - Basic": {
+        "prefix": "ccolor",
+        "body": [
+            "cout << \"\\033[${1|30,31,32,33,34,35,36,37|}m${2:text}\\033[0m\" << endl;"
+        ],
+        "description": "带颜色的cout输出 (30=黑 31=红 32=绿 33=黄 34=蓝 35=洋红 36=青 37=白)"
+    },
+    "C++ Colored Output - Red": {
+        "prefix": "cred",
+        "body": [
+            "cout << \"\\033[31m${1:text}\\033[0m\" << endl;"
+        ],
+        "description": "红色输出"
+    },
+    "C++ Colored Output - Green": {
+        "prefix": "cgreen",
+        "body": [
+            "cout << \"\\033[32m${1:text}\\033[0m\" << endl;"
+        ],
+        "description": "绿色输出"
+    },
+    "C++ Colored Output - Yellow": {
+        "prefix": "cyellow",
+        "body": [
+            "cout << \"\\033[33m${1:text}\\033[0m\" << endl;"
+        ],
+        "description": "黄色输出"
+    },
+    "C++ Colored Output - Blue": {
+        "prefix": "cblue",
+        "body": [
+            "cout << \"\\033[34m${1:text}\\033[0m\" << endl;"
+        ],
+        "description": "蓝色输出"
+    },
+    "C++ Colored Output - Bold": {
+        "prefix": "cbold",
+        "body": [
+            "cout << \"\\033[1;${1|31,32,33,34,35,36,37|}m${2:text}\\033[0m\" << endl;"
+        ],
+        "description": "加粗彩色输出"
+    },
+    "C++ Colored Output - Background": {
+        "prefix": "cbg",
+        "body": [
+            "cout << \"\\033[${1|40,41,42,43,44,45,46,47|}m${2:text}\\033[0m\" << endl;"
+        ],
+        "description": "带背景色输出 (40=黑 41=红 42=绿 43=黄 44=蓝 45=洋红 46=青 47=白)"
+    },
+    "C++ Color Helper Functions": {
+        "prefix": "ccolorfunc",
+        "body": [
+            "// 颜色辅助函数",
+            "namespace Color {",
+            "    const string RESET = \"\\033[0m\";",
+            "    const string BLACK = \"\\033[30m\";",
+            "    const string RED = \"\\033[31m\";",
+            "    const string GREEN = \"\\033[32m\";",
+            "    const string YELLOW = \"\\033[33m\";",
+            "    const string BLUE = \"\\033[34m\";",
+            "    const string MAGENTA = \"\\033[35m\";",
+            "    const string CYAN = \"\\033[36m\";",
+            "    const string WHITE = \"\\033[37m\";",
+            "    ",
+            "    const string BOLD = \"\\033[1m\";",
+            "    const string UNDERLINE = \"\\033[4m\";",
+            "}",
+            "",
+            "// 使用示例:",
+            "// cout << Color::RED << \"错误信息\" << Color::RESET << endl;",
+            "$0"
+        ],
+        "description": "创建颜色常量命名空间"
+    },
+    "C++ Color Print Function": {
+        "prefix": "ccolorprint",
+        "body": [
+            "void print_color(const string& text, const string& color_code = \"\\033[0m\") {",
+            "    cout << color_code << text << \"\\033[0m\" << endl;",
+            "}",
+            "",
+            "// 使用示例:",
+            "// print_color(\"成功\", \"\\033[32m\");",
+            "$0"
+        ],
+        "description": "创建彩色打印函数"
+    },
+    "C++ Advanced Color Print": {
+        "prefix": "ccoloradv",
+        "body": [
+            "template<typename T>",
+            "void print_colored(const T& content, int fg = 37, int bg = -1, bool bold = false) {",
+            "    cout << \"\\033[\";",
+            "    if (bold) cout << \"1;\";",
+            "    cout << fg << \"m\";",
+            "    if (bg != -1) cout << \"\\033[\" << bg << \"m\";",
+            "    cout << content << \"\\033[0m\" << endl;",
+            "}",
+            "",
+            "// 使用示例:",
+            "// print_colored(\"错误\", 31);          // 红色",
+            "// print_colored(\"成功\", 32, 40, true); // 加粗绿色，黑色背景",
+            "$0"
+        ],
+        "description": "创建高级彩色打印模板函数"
+    }
+}
