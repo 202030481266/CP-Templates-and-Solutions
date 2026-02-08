@@ -1,6 +1,43 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+template<typename T>
+struct ST {
+	int N;
+	vector<vector<T>> vec;
+ 
+	ST() {}
+ 
+	ST(int n) : N(n) {
+		vec.assign(N + 1, vector<T>(30));
+		for (int i = 1; i <= N; i++) {
+			cin >> vec[i][0];
+		}
+	}
+ 
+	ST(const vector<T>& a) {
+		N = a.size() - 1;
+		vec.assign(N + 1, vector<T>(30));
+		for (int i = 1; i <= N; i++) {
+			vec[i][0] = a[i];
+		}
+	}
+ 
+	void ST_work() {
+		int t = log2(N) + 1;
+		for (int i = 1; i < t; i++) {
+			for (int j = 1; j + (1 << i) - 1 <= N; j++) {
+				vec[j][i] = min(vec[j][i - 1], vec[j + (1 << (i - 1))][i - 1]);
+			}
+		}
+	}
+ 
+	T query(int l, int r) {
+		int k = __lg(r - l + 1);
+		return min(vec[l][k], vec[r - (1 << k) + 1][k]);
+	}
+};
+
 // 区间最大值和最小值
 struct ST {
 
