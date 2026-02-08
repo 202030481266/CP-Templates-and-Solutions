@@ -1,0 +1,23 @@
+let mapleader = " "
+
+" 插入模式映射
+inoremap jj <Esc>
+inoremap jk <Esc>:w<CR>
+
+" 缩进保持
+vnoremap < <gv
+vnoremap > >gv
+
+" 分屏跳转 (VS 默认使用 Ctrl+Tab 或特定的窗口快捷键)
+" 下面映射尝试模拟原生 Vim 行为
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" 基础设置
+set relativenumber
+set number
+set ignorecase
+set smartcase
+" 注意：VS 的 UI 设置（如 Tab 大小、颜色）通常由 VS 菜单中的 '选项' 决定，vsvimrc 的优先级较低

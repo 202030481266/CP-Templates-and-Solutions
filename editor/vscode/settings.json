@@ -1,0 +1,10 @@
+{
+    "vscode-neovim.neovimInitPath": "C:/Users/Administrator/AppData/Local/nvim/init.lua", 
+    "extensions.experimental.affance": true,
+    "vim.handleKeys": {
+        "<C-h>": false,
+        "<C-j>": false,
+        "<C-k>": false,
+        "<C-l>": false
+    }
+}

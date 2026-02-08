@@ -1,0 +1,6 @@
+[
+    { "command": "workbench.action.focusLeftGroup", "key": "ctrl+h", "when": "editorTextFocus && vim.active" },
+    { "command": "workbench.action.focusRightGroup", "key": "ctrl+l", "when": "editorTextFocus && vim.active" },
+    { "command": "workbench.action.focusAboveGroup", "key": "ctrl+k", "when": "editorTextFocus && vim.active" },
+    { "command": "workbench.action.focusBelowGroup", "key": "ctrl+j", "when": "editorTextFocus && vim.active" }
+]

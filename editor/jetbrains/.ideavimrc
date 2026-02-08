@@ -1,0 +1,31 @@
+" 设置 Leader 键
+let mapleader = " "
+
+" 1. 映射 jj 为 Esc
+inoremap jj <Esc>
+
+" 2. 映射 jk 为 保存并返回 (IdeaVim 中 :w 对应 IDE 的 Save All)
+inoremap jk <Esc>:w<CR>
+
+" 3. 可视模式缩进保持选中
+vnoremap < <gv
+vnoremap > >gv
+
+" 常用分屏跳转 (调用 IDE 原生 Action 体验更佳)
+nnoremap <C-h> <Action>(EditorLeft)
+nnoremap <C-j> <Action>(EditorDown)
+nnoremap <C-k> <Action>(EditorUp)
+nnoremap <C-l> <Action>(EditorRight)
+
+" 基础设置
+set relativenumber
+set number
+set cursorline
+set ignorecase
+set smartcase
+set ideajoin " 增强型行合并
+
+" 缩进设置 (通常 IDE 会覆盖这些，但写上以防万一)
+set tabstop=4
+set shiftwidth=4
+set expandtab
