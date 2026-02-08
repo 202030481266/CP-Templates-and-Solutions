@@ -1,77 +1,82 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-template<typename T>
+// 0-index实现
+template <typename T, class Op>
 struct ST {
-	int N;
-	vector<vector<T>> vec;
- 
-	ST() {}
- 
-	ST(int n) : N(n) {
-		vec.assign(N + 1, vector<T>(30));
-		for (int i = 1; i <= N; i++) {
-			cin >> vec[i][0];
-		}
-	}
- 
-	ST(const vector<T>& a) {
-		N = a.size() - 1;
-		vec.assign(N + 1, vector<T>(30));
-		for (int i = 1; i <= N; i++) {
-			vec[i][0] = a[i];
-		}
-	}
- 
-	void ST_work() {
-		int t = log2(N) + 1;
-		for (int i = 1; i < t; i++) {
-			for (int j = 1; j + (1 << i) - 1 <= N; j++) {
-				vec[j][i] = min(vec[j][i - 1], vec[j + (1 << (i - 1))][i - 1]);
-			}
-		}
-	}
- 
-	T query(int l, int r) {
-		int k = __lg(r - l + 1);
-		return min(vec[l][k], vec[r - (1 << k) + 1][k]);
-	}
-};
-
-// 区间最大值和最小值
-struct ST {
-
-    long long N;
-    vector<vector<long long>> vec;
-
-    ST() {}
-    ST(int n) {
-        N = n;
-        vec.resize(N);
-        for (auto &v : vec) v = vector<long long>(30, 0);
-        for (int i = 0; i < N; i++) {
-            cin >> vec[i][0]; 
-        }
+    int N;
+    Op op;
+    std::vector<std::vector<T>> vec;
+    
+    ST(int n, Op operation) : N(n), op(operation) {
+        vec.assign(N + 1, vector<T>(30));
     }
-    ST(const vector<long long>&a) {
-        vec.resize(a.size());
+
+    ST(const std::vector<T>& a, Op operation) : op(operation) {
         N = a.size();
-        for (auto &v : vec) v = vector<long long>(30, 0);
-        for (int i = 0; i < N; i++) vec[i][0] = a[i];
-    }
-    void ST_work() {
-        int t = log(N) / log(2) + 1;
-        for (int i = 1; i < t; i++) {
-            for (int j = 0; j + (1 << i) - 1 < N; j++) {
-                vec[j][i] = max(vec[j][i - 1], vec[j + (1 << (i - 1))][i - 1]);
+        int max_log = std::__lg(N) + 1;
+        vec.assign(N, std::vector<T>(max_log));
+        for (int i = 0; i < N; i++) {
+            vec[i][0] = a[i];
+        }
+        
+        for (int i = 1; i < max_log; i++) {
+            for (int j = 0; j + (1 << i) <= N; j++) {
+                vec[j][i] = op(vec[j][i - 1], vec[j + (1 << (i - 1))][i - 1]);
             }
         }
     }
-    long long query(int l, int r) {
-        int k = log(r - l + 1) / log(2);
-        return max(vec[l][k], vec[r - (1 << k) + 1][k]);
+
+    T query(int l, int r) {
+        int k = std::__lg(r - l + 1);
+        return op(vec[l][k], vec[r - (1 << k) + 1][k]);
     }
 };
+
+// 1-index实现
+template <typename T, class Op>
+struct ST {
+    int N;
+    Op op;
+    std::vector<std::vector<T>> vec;
+    
+    ST(int n, Op operation) : N(n), op(operation) {
+        vec.assign(N + 1, vector<T>(30));
+    }
+
+    ST(const std::vector<T>& a, Op operation) : op(operation) {
+        N = a.size() - 1; // 假设 a[0] 是占位符
+        int max_log = std::__lg(N) + 1;
+        vec.assign(N + 1, std::vector<T>(max_log));
+        for (int i = 1; i <= N; i++) {
+            vec[i][0] = a[i];
+        }
+
+        for (int i = 1; i < max_log; i++) {
+            for (int j = 1; j + (1 << i) - 1 <= N; j++) {
+                vec[j][i] = op(vec[j][i - 1], vec[j + (1 << (i - 1))][i - 1]);
+            }
+        }
+    }
+
+    T query(int l, int r) {
+        int k = std::__lg(r - l + 1);
+        return op(vec[l][k], vec[r - (1 << k) + 1][k]);
+    }
+};
+
+// 区间最小值
+auto min_op = [](int a, int b) { return min(a, b); };
+ST<int, decltype(min_op)> st_min(arr, min_op);
+
+// 区间最大值
+auto max_op = [](int a, int b) { return max(a, b); };
+ST<int, decltype(max_op)> st_max(arr, max_op);
+
+// 区间GCD
+auto gcd_op = [](int a, int b) { return __gcd(a, b); };
+ST<int, decltype(gcd_op)> st_gcd(arr, gcd_op);
+
 
 // 区间乘积或者和
 #include <vector>
