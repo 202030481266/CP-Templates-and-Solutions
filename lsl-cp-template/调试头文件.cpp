@@ -11,6 +11,11 @@ typedef unsigned long long ull;
 typedef unsigned int uint;
 typedef std::pair<int, int> pii;
 typedef std::vector<int> vi;
+typedef std::vector<vector<int>> vii;
+typedef std::vector<ll> vl;
+typedef std::vector<vector<ll>> vll;
+typedef std::vector<pair<int, int>> vp;
+typedef std::vector<vector<pair<int, int>>> vpp;
 
 void __print(int x) { cerr << x; }
 void __print(long x) { cerr << x; }
