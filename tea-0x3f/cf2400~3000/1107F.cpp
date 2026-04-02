@@ -130,18 +130,49 @@ inline constexpr ll   LL_INF = numeric_limits<ll>::max() / 2;
 // guess2: 最好的方法肯定是连续贷款，中间不会有空缺，不然肯定会有更加好的方案，而且最后的答案肯定也不会超过n，拿完走人了啊
 // guess3: 对于第 i 个物品而言， 决策需要的东西：当前已经有的负债表状态，关键是怎么表示？
 // guess4: 最佳方案中绝对不会存在一个物品 i，它对于整体的贡献是负的。（我为什么要搬起石头砸自己的脚？）
+// guess5: 如果一个物品在d天之内绝对不会亏，要额外的处理，因为这个时候不等式不会成立，价值就不是线性的了，这个时候等价于另外的一种选择模式：
+//  - 0, 1, 2, 3, 4, .... d
+//  - S = sum(ai) - sum(i * bi) for i in subset s'
+//	- S = sum(ai) - sum(i * bi) for i in subset s(a) + sum(ai - bi * ki) for i in subset sb
+//  - 对于 d 天而言，实际上划分为两个部分了，首先决策一个 x 天的尾部的贷款，然后就是选择 top(d-x) 可以完全收益的贷款
 
 int n;
-int a[503], b[503], k[503];
+ll a[503], b[503], c[503];
+ll dp[2][503][503];
 
 void solve() {
 	cin >> n;
-	for (int i = 1; i <= n; ++i) cin >> a[i] >> b[i] >> k[i];
-	// 枚举其中的天数
-	for (int day = 0; day <= n; ++day) {
-		// dp[i][x] = max(dp[i - 1][x], dp[i - 1][x - bi] + ai)
-
+	for (int i = 1; i <= n; ++i) cin >> a[i] >> b[i] >> c[i];
+	vi ids(n);
+	iota(ids.begin(), ids.end(), 1);
+	ranges::sort(ids, [&](int i, int j) { return b[i] > b[j]; }); // 排序不等式
+	int pre = 0, cur = 1;
+	ll ans = 0, x = 0;
+	for (int i : ids) {
+		memset(dp[cur], 0, sizeof(dp[cur]));
+		++x;
+		for (int j = 1; j <= x; ++j) { // 已经加入的贷款数量
+			for (int k = 0; k <= j; ++k) { // 多少个是当前的已经加入的非线性贷款
+				if (j - k - 1 >= c[i]) { // 非线性
+					dp[cur][j][k] = max(dp[cur][j][k], dp[pre][j][k]);
+					if (k > 0 && a[i] > b[i] * c[i]) {
+						dp[cur][j][k] = max(dp[cur][j][k], dp[pre][j - 1][k - 1] + a[i] - b[i] * c[i]);
+					}
+				}
+				else { // 线性
+					dp[cur][j][k] = max(dp[cur][j][k], dp[pre][j][k]);
+					if (j > k && a[i] > b[i] * (j - k - 1)) {
+						dp[cur][j][k] = max(dp[cur][j][k], dp[pre][j - 1][k] + a[i] - b[i] * (j - k - 1));
+					}
+				}
+				ans = max(ans, dp[cur][j][k]);
+			}
+		}
+		cout << dp[cur][1][0] << ' ' << dp[cur][2][1] << ' ' << dp[cur][3][1] << endl;
+		pre ^= 1;
+		cur ^= 1;
 	}
+	cout << ans << '\n';
 }
 
 
