@@ -127,14 +127,7 @@ inline constexpr int  INT_INF = numeric_limits<int>::max() / 2;
 inline constexpr ll   LL_INF = numeric_limits<ll>::max() / 2;
 
 // guess1: 最好的方法肯定是连续贷款，除非包含了那些绝对不会亏的物品，这个时候直接前面拿就行了，不需要放到后面拿
-// guess2: 最佳方案中绝对不会存在一个物品 i，它对于整体的贡献是负的。（我为什么要搬起石头砸自己的脚？）
-// guess3: 如果一个物品在d天之内绝对不会亏，肯定要放前面, 这个时候不等式不会成立，价值就不是线性的了
-//  - 0, 1, 2, 3, 4, .... d
-//  - S = sum(ai) - sum(i * bi) for i in subset s'
-//	- S = sum(ai) - sum(i * bi) for i in subset s(a) + sum(ai - bi * ki) for i in subset sb
-
-// dp[d][i][j] = max(dp[d][i - 1][j] + a[i] - b[i] * i, dp[d][i][j - 1] + a[i] - k[i] * b[i]) for d in [1..n]
-// O(n^4)
+// guess2: 最佳方案中绝对不会存在一个物品 i，它对于整体的贡献是负的。
 
 int n;
 ll a[503], b[503], c[503];
@@ -146,26 +139,21 @@ void solve() {
 	vi ids(n);
 	iota(ids.begin(), ids.end(), 1);
 	ranges::sort(ids, [&](int i, int j) { return b[i] > b[j]; }); // 排序不等式
-	int pre = 0, cur = 1;
 	ll ans = 0, x = 0;
 	for (int i : ids) {
 		++x;
-		for (int j = 0; j <= x; ++j) {
-			if (j - 1 >= c[i]) {
-				if (a[i] > b[i] * c[i]) {
-					dp[x][j] = dp[x - 1][j] + a[i] - b[i] * c[i];
-				}
+		if (a[i] > b[i] * c[i]) {
+			for (int j = 0; j <= n; ++j) { // 放到前面
+				dp[x][j] = dp[x - 1][j] + a[i] - b[i] * c[i];
 			}
-			else {
-				if (a[i] > b[i] * j) {
-					if (j > 0) {
-						dp[x][j] = max(dp[x - 1][j], dp[x - 1][j - 1] + a[i] - b[i] * j);
-					}
-					else dp[x][j] = max(dp[x - 1][j], a[i]);
-				}
-			}
-			ans = max(ans, dp[x][j]);
 		}
+		else { // 不选择
+			for (int j = 0; j <= n; ++j) dp[x][j] = dp[x - 1][j];
+		}
+		for (int j = 1; j <= n && j <= c[i] && a[i] > b[i] * (j - 1); ++j) { // 放到后面某一个位置
+			dp[x][j] = max(dp[x][j], dp[x - 1][j - 1] + a[i] - b[i] * (j - 1));
+		}
+		for (int j = 0; j <= n; ++j) ans = max(ans, dp[x][j]);
 	}
 	cout << ans << '\n';
 }
