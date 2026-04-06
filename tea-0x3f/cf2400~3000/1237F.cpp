@@ -188,10 +188,9 @@ void solve() {
 	ll ans = 0;
 	for (int x = 0; 2 * x <= cr && x <= cc; ++x) {
 		for (int y = 0; 2 * x + y <= cr && 2 * y + x <= cc; ++y) {
-			ll cnt_x = 1LL * f[n][x] * C(cr - 2 * x, y) % M * fac[y] % M;
-			ll cnt_y = 1LL * g[m][y] * C(cc - 2 * y, x) % M * fac[x] % M;
-			ans = (ans + cnt_x * cnt_y) % M;
-			// cout << x << ' ' << y << ' ' << cnt_x * cnt_y << endl;
+			ll cnt_x = 1LL * f[n][x] * C(cr - 2 * x, y) % M;
+			ll cnt_y = 1LL * g[m][y] * C(cc - 2 * y, x) % M;
+			ans = (ans + cnt_x * cnt_y % M * fac[x] % M * fac[y]) % M;
 		}
 	}
 	cout << ans << '\n';
