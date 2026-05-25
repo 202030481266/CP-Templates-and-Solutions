@@ -116,6 +116,9 @@ inline constexpr ll   LLINF = 0x3f3f3f3f3f3f3f3fLL;
 inline constexpr int  MOD = 1'000'000'007;
 inline constexpr int  MAXB = 30;
 
+// O(n ^ 3)
+// 1. 找到发生下沉的地方，找到 arr[i] 所处的周期，不断枚举后面小周期最早开始的地方就行了（损失是最大的）
+// 2. 如果后缀不是完美的，那么一定存在一个位置 i，arr[i] * k 是答案，因为就是这个存在导致了后缀的不完美的诞生
 
 void solve() {
 	int n;
