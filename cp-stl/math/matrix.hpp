@@ -29,8 +29,8 @@ struct Matrix {
         Matrix base = *this, result(n, true);
         while (exponent) {
             if (exponent & 1) result = result * base;
-            base = base * base;
             exponent >>= 1;
+            if (exponent) base = base * base; // 最后一位处理后不再计算无用的平方。
         }
         return result;
     }

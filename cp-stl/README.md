@@ -6,6 +6,7 @@
 - **每个模板怎么用**：[35 个模板的完整使用手册](docs/usage/README.md)，包含接口、完整代码、预期输出和注意事项。
 - **直接运行例子**：[全部可运行示例](examples/README.md)，35 个模板示例内置数据，打开后按 `Ctrl+Shift+B`。
 - **配置与运行**：[VS Code 使用说明](docs/vscode.md)。
+- **性能与选型**：[性能检查与优化报告](docs/performance.md)，包含 35 个模板的时间/空间复杂度、实测数据和大规模使用限制。
 - **常见写法与进阶入口**：[使用示例 / DP 提示 / ACL](docs/recipes.md)。
 - **旧文件去向及接口变化**：[迁移说明](docs/migration.md)。
 

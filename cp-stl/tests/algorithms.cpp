@@ -95,6 +95,14 @@ void data_structures() {
         for (auto& x : a) x -= 7;
         assert(lazy.sum(0, n) == accumulate(a.begin(), a.end(), 0LL));
     }
+    vector<long long> original{3, -2, 7, 0, 1, 6, -4, 5};
+    RangeAddSum cancelling(original);
+    cancelling.add(0, 8, 9);
+    cancelling.add(0, 8, -9);
+    cancelling.add(1, 7, 0);
+    for (int l = 0; l <= 8; ++l) for (int r = l; r <= 8; ++r)
+        assert(cancelling.sum(l, r) == accumulate(original.begin() + l, original.begin() + r, 0LL));
+
     vector<string> words{"a", "bc", "d", "ef"};
     SegmentTree<string, plus<string>> concatenation(words, "");
     assert(concatenation.prod(1, 4) == "bcdef");
@@ -121,7 +129,15 @@ void data_structures() {
             basis.insert(x);
             auto previous = achievable;
             for (auto value : previous) achievable.insert(value ^ x);
+            // Interleave insertions and queries so the cached basis must refresh.
+            uint64_t index = 0;
+            const XorBasis& view = basis;
+            for (auto value : achievable) assert(view.kth(index++).value() == value);
         }
+        auto copied = basis;
+        assert(copied.insert(uint64_t{1} << 63));
+        assert(copied.kth(achievable.size()).value() == (uint64_t{1} << 63));
+        assert(!basis.contains(uint64_t{1} << 63));
         uint64_t k = 0;
         for (auto value : achievable) {
             assert(basis.contains(value));
@@ -132,7 +148,13 @@ void data_structures() {
         for (int x = 0; x < 1024; ++x) assert(basis.contains(x) == (achievable.count(x) != 0));
     }
     XorBasis full;
-    for (int i = 0; i < 64; ++i) full.insert(uint64_t{1} << i);
+    assert(full.kth(0).value() == 0 && !full.kth(1));
+    for (int i = 0; i < 64; ++i) {
+        full.insert(uint64_t{1} << i);
+        assert(full.kth(uint64_t{1} << i).value() == (uint64_t{1} << i));
+        assert(!full.insert(uint64_t{1} << i));
+        assert(full.kth(0).value() == 0);
+    }
     assert(full.rank() == 64 && full.kth(UINT64_MAX).value() == UINT64_MAX);
     BinaryTrie trie;
     vector<uint64_t> values;
@@ -309,6 +331,20 @@ void trees() {
 void strings() {
     assert(kmp_find("", "") == vector<int>{0});
     assert(z_function("").empty());
+    // An independent polynomial evaluation catches narrow intermediate products
+    // and signed-char errors after reducing RollingHash's storage to uint32_t.
+    string bytes(513, '\0');
+    for (int i = 0; i < int(bytes.size()); ++i) bytes[i] = char((i * 73) & 255);
+    RollingHash byte_hash(bytes);
+    constexpr array<long long, 2> moduli{1000000007, 1000000009};
+    for (int trial = 0; trial < 1000; ++trial) {
+        int l = random_int(0, int(bytes.size())), r = random_int(l, int(bytes.size()));
+        array<long long, 2> expected{};
+        for (int i = l; i < r; ++i) for (int j = 0; j < 2; ++j)
+            expected[j] = static_cast<long long>(
+                ((__int128)expected[j] * 911382323 + static_cast<unsigned char>(bytes[i]) + 1) % moduli[j]);
+        assert(byte_hash.get(l, r) == expected);
+    }
     Trie trie;
     trie.insert(""); trie.insert("ab"); trie.insert("ab"); trie.insert("abc");
     assert(trie.count("") == 1 && trie.count_prefix("") == 4 && trie.count_prefix("ab") == 3);
@@ -347,7 +383,37 @@ void strings() {
     }
 }
 
+template<int Mod>
+void modint_boundaries() {
+    using M = ModInt<Mod>;
+    auto normalized = [](long long x) { return (x % Mod + Mod) % Mod; };
+    vector<long long> values{LLONG_MIN, LLONG_MAX, -1LL * Mod, -1, 0, 1, Mod - 1LL, Mod};
+    for (long long x : values) for (long long y : values) {
+        long long a = normalized(x), b = normalized(y);
+        assert((M(x) + M(y)).val() == (a + b) % Mod);
+        assert((M(x) - M(y)).val() == (a - b + Mod) % Mod);
+        assert((M(x) * M(y)).val() == a * b % Mod);
+        long long expected = 1;
+        for (int exponent = 0; exponent <= 12; ++exponent) {
+            assert(M(x).pow(exponent).val() == expected);
+            expected = expected * a % Mod;
+        }
+    }
+    for (int trial = 0; trial < 500; ++trial) {
+        long long a = rng() % Mod, b = rng() % Mod;
+        assert((M(a) + M(b)).val() == (a + b) % Mod);
+        auto bits = (uint64_t(rng()) << 32 | rng()) & uint64_t(LLONG_MAX);
+        long long exponent = static_cast<long long>(bits);
+        assert(M(a).pow(exponent).val() == pow_mod(a, exponent, Mod));
+    }
+}
+
 void math_and_dp() {
+    modint_boundaries<2>();
+    modint_boundaries<12>();
+    modint_boundaries<998244353>();
+    modint_boundaries<1000000007>();
+    modint_boundaries<2147483647>();
     PrimeSieve sieve(2000);
     for (int x = 1; x <= 2000; ++x) {
         bool prime = x >= 2;

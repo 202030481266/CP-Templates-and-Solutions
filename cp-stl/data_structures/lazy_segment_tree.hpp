@@ -23,25 +23,27 @@ class RangeAddSum {
         lazy_[p] += value;
     }
     void push(int p, int l, int r) {
+        if (lazy_[p] == 0) return;
         int m = l + (r - l) / 2;
         apply(p * 2, m - l, lazy_[p]);
         apply(p * 2 + 1, r - m, lazy_[p]);
         lazy_[p] = 0;
     }
+    // 调用方只进入与 [ql,qr) 相交的子节点，避免空分支的递归和边界检查。
     void add(int p, int l, int r, int ql, int qr, long long value) {
-        if (qr <= l || r <= ql) return;
         if (ql <= l && r <= qr) { apply(p, r - l, value); return; }
         push(p, l, r);
         int m = l + (r - l) / 2;
-        add(p * 2, l, m, ql, qr, value);
-        add(p * 2 + 1, m, r, ql, qr, value);
+        if (ql < m) add(p * 2, l, m, ql, qr, value);
+        if (m < qr) add(p * 2 + 1, m, r, ql, qr, value);
         pull(p);
     }
     long long query(int p, int l, int r, int ql, int qr) {
-        if (qr <= l || r <= ql) return 0;
         if (ql <= l && r <= qr) return sum_[p];
         push(p, l, r);
         int m = l + (r - l) / 2;
+        if (qr <= m) return query(p * 2, l, m, ql, qr);
+        if (ql >= m) return query(p * 2 + 1, m, r, ql, qr);
         return query(p * 2, l, m, ql, qr) + query(p * 2 + 1, m, r, ql, qr);
     }
 public:

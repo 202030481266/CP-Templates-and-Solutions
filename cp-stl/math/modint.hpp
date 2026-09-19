@@ -15,12 +15,27 @@ public:
     static constexpr int mod() { return Mod; }
     ModInt(long long x = 0) : value_(int(x % Mod)) { if (value_ < 0) value_ += Mod; }
     int val() const { return value_; }
-    ModInt& operator+=(ModInt b) { value_ = int((static_cast<long long>(value_) + b.value_) % Mod); return *this; }
+    ModInt& operator+=(ModInt b) {
+        // 无符号加法覆盖 Mod 接近 INT_MAX 时的两个模值之和。
+        unsigned sum = static_cast<unsigned>(value_) + static_cast<unsigned>(b.value_);
+        if (sum >= static_cast<unsigned>(Mod)) sum -= static_cast<unsigned>(Mod);
+        value_ = int(sum);
+        return *this;
+    }
     ModInt& operator-=(ModInt b) { value_ -= b.value_; if (value_ < 0) value_ += Mod; return *this; }
     ModInt& operator*=(ModInt b) { value_ = int(1LL * value_ * b.value_ % Mod); return *this; }
     ModInt& operator/=(ModInt b) { return *this *= b.inv(); }
     ModInt operator-() const { return ModInt(-value_); }
-    ModInt pow(long long exponent) const { return ModInt(pow_mod(value_, exponent, Mod)); }
+    ModInt pow(long long exponent) const {
+        assert(exponent >= 0);
+        ModInt base = *this, result = 1;
+        while (exponent) {
+            if (exponent & 1) result *= base;
+            exponent >>= 1;
+            if (exponent) base *= base;
+        }
+        return result;
+    }
     ModInt inv() const {
         auto value = inverse_mod(value_, Mod);
         assert(value.has_value()); // 除数与模数必须互质。
