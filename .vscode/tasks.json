@@ -1,0 +1,227 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "CP: Run current file",
+      "type": "process",
+      "command": "${env:WINDIR}/System32/WindowsPowerShell/v1.0/powershell.exe",
+      "args": [
+        "-NoLogo",
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/cp-stl/tools/cp.ps1",
+        "-Action",
+        "Run",
+        "-Source",
+        "${file}",
+        "-Compiler",
+        "${config:C_Cpp.default.compilerPath}",
+        "-Standard",
+        "${config:C_Cpp.default.cppStandard}"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true,
+        "focus": true
+      },
+      "runOptions": {
+        "instanceLimit": 1
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "CP: Run with input.txt",
+      "type": "process",
+      "command": "${env:WINDIR}/System32/WindowsPowerShell/v1.0/powershell.exe",
+      "args": [
+        "-NoLogo",
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/cp-stl/tools/cp.ps1",
+        "-Action",
+        "Run",
+        "-Source",
+        "${file}",
+        "-InputFile",
+        "${workspaceFolder}/input.txt",
+        "-Compiler",
+        "${config:C_Cpp.default.compilerPath}",
+        "-Standard",
+        "${config:C_Cpp.default.cppStandard}"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true,
+        "focus": true
+      },
+      "runOptions": {
+        "instanceLimit": 1
+      }
+    },
+    {
+      "label": "CP: Build for debugging",
+      "type": "process",
+      "command": "${env:WINDIR}/System32/WindowsPowerShell/v1.0/powershell.exe",
+      "args": [
+        "-NoLogo",
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/cp-stl/tools/cp.ps1",
+        "-Action",
+        "Build",
+        "-Source",
+        "${file}",
+        "-Mode",
+        "Debug",
+        "-Compiler",
+        "${config:C_Cpp.default.compilerPath}",
+        "-Standard",
+        "${config:C_Cpp.default.cppStandard}"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true,
+        "focus": false
+      },
+      "runOptions": {
+        "instanceLimit": 1
+      }
+    },
+    {
+      "label": "CP: Test templates",
+      "type": "process",
+      "command": "${env:WINDIR}/System32/WindowsPowerShell/v1.0/powershell.exe",
+      "args": [
+        "-NoLogo",
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/cp-stl/tools/cp.ps1",
+        "-Action",
+        "Test",
+        "-Compiler",
+        "${config:C_Cpp.default.compilerPath}",
+        "-Standard",
+        "${config:C_Cpp.default.cppStandard}"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true,
+        "focus": false
+      },
+      "runOptions": {
+        "instanceLimit": 1
+      },
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "CP: Export submission.cpp",
+      "type": "process",
+      "command": "${env:WINDIR}/System32/WindowsPowerShell/v1.0/powershell.exe",
+      "args": [
+        "-NoLogo",
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/cp-stl/tools/cp.ps1",
+        "-Action",
+        "Export",
+        "-Source",
+        "${file}",
+        "-Compiler",
+        "${config:C_Cpp.default.compilerPath}",
+        "-Standard",
+        "${config:C_Cpp.default.cppStandard}"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true,
+        "focus": false
+      },
+      "runOptions": {
+        "instanceLimit": 1
+      }
+    },
+    {
+      "label": "CP: Check environment",
+      "type": "process",
+      "command": "${env:WINDIR}/System32/WindowsPowerShell/v1.0/powershell.exe",
+      "args": [
+        "-NoLogo",
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/cp-stl/tools/cp.ps1",
+        "-Action",
+        "Doctor",
+        "-Compiler",
+        "${config:C_Cpp.default.compilerPath}",
+        "-Standard",
+        "${config:C_Cpp.default.cppStandard}"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true,
+        "focus": false
+      },
+      "runOptions": {
+        "instanceLimit": 1
+      }
+    }
+  ]
+}

@@ -2,6 +2,16 @@
 
 我个人的算法模板库以及大部分LeetCode题目的算法答案，主要包含C++的实现。
 
+## 写题入口
+
+- **[常用算法模板索引](cp-stl/README.md)**：整合后的模板统一放在 `cp-stl`，先看首页的 8 个常用入口。
+- **[C++ / VS Code 使用说明](cp-stl/docs/vscode.md)**：打开整个仓库，`Ctrl+Shift+B` 编译运行当前文件，`F5` 调试；支持中文源文件路径。
+- **[起手模板](cp-stl/template.cpp)**：新建 cpp 后也可以输入 `cpstart` 插入。
+- **[可运行示例](cp-stl/examples/fenwick.cpp)** / **[模板迁移说明](cp-stl/docs/migration.md)**。
+
+本地临时解答放 `scratch/`，样例输入放根目录 `input.txt`；提交前可运行任务 `CP: Export submission.cpp` 生成不依赖本地头文件的代码。
+
+
 # Six useful thinking methods
 
 - 简化（抽象出问题的本质，抛开无关的东西）

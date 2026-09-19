@@ -1,0 +1,42 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "CP: Debug current file",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/.build/debug/program.exe",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [
+        {
+          "name": "PATH",
+          "value": "C:\\msys64\\ucrt64\\bin;${env:PATH}"
+        }
+      ],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "miDebuggerPath": "C:/msys64/ucrt64/bin/gdb.exe",
+      "setupCommands": [
+        {
+          "description": "Enable STL pretty-printing",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        },
+        {
+          "description": "Use UTF-8 for source and terminal text",
+          "text": "set charset UTF-8",
+          "ignoreFailures": false
+        }
+      ],
+      "preLaunchTask": "CP: Build for debugging",
+      "sourceFileMap": {
+        "${workspaceFolder}/.build/debug/main.cpp": {
+          "editorPath": "${file}",
+          "useForBreakpoints": true
+        }
+      }
+    }
+  ]
+}
