@@ -1,4 +1,6 @@
 #pragma once
+// 使用说明：cp-stl/docs/usage/data_structures/fenwick.md
+// 完整示例：cp-stl/examples/data_structures/fenwick.cpp
 #include <cassert>
 #include <vector>
 

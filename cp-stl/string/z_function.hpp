@@ -1,4 +1,6 @@
 #pragma once
+// 使用说明：cp-stl/docs/usage/string/z_function.md
+// 完整示例：cp-stl/examples/string/z_function.cpp
 #include <algorithm>
 #include <string_view>
 #include <vector>

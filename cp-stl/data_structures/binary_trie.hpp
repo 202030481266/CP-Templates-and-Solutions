@@ -1,4 +1,6 @@
 #pragma once
+// 使用说明：cp-stl/docs/usage/data_structures/binary_trie.md
+// 完整示例：cp-stl/examples/data_structures/binary_trie.cpp
 #include <array>
 #include <cassert>
 #include <cstdint>

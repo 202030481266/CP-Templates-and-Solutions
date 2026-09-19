@@ -1,4 +1,6 @@
 #pragma once
+// 使用说明：cp-stl/docs/usage/basic/search.md
+// 完整示例：cp-stl/examples/basic/search.cpp
 #include <cassert>
 #include <limits>
 

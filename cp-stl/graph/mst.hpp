@@ -1,4 +1,6 @@
 #pragma once
+// 使用说明：cp-stl/docs/usage/graph/mst.md
+// 完整示例：cp-stl/examples/graph/mst.cpp
 #include <algorithm>
 #include <vector>
 #include "../data_structures/dsu.hpp"

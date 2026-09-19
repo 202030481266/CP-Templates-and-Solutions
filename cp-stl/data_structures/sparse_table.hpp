@@ -1,4 +1,6 @@
 #pragma once
+// 使用说明：cp-stl/docs/usage/data_structures/sparse_table.md
+// 完整示例：cp-stl/examples/data_structures/sparse_table.cpp
 #include <algorithm>
 #include <cassert>
 #include <numeric>

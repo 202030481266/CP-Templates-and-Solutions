@@ -7,7 +7,8 @@
 - **[常用算法模板索引](cp-stl/README.md)**：整合后的模板统一放在 `cp-stl`，先看首页的 8 个常用入口。
 - **[C++ / VS Code 使用说明](cp-stl/docs/vscode.md)**：打开整个仓库，`Ctrl+Shift+B` 编译运行当前文件，`F5` 调试；支持中文源文件路径。
 - **[起手模板](cp-stl/template.cpp)**：新建 cpp 后也可以输入 `cpstart` 插入。
-- **[可运行示例](cp-stl/examples/fenwick.cpp)** / **[模板迁移说明](cp-stl/docs/migration.md)**。
+- **[逐个模板的使用手册](cp-stl/docs/usage/README.md)**：35 个模板的接口、完整例子、预期输出和注意事项。
+- **[全部可运行示例](cp-stl/examples/README.md)** / **[模板迁移说明](cp-stl/docs/migration.md)**。
 
 本地临时解答放 `scratch/`，样例输入放根目录 `input.txt`；提交前可运行任务 `CP: Export submission.cpp` 生成不依赖本地头文件的代码。
 

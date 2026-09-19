@@ -1,4 +1,6 @@
 #pragma once
+// 使用说明：cp-stl/docs/usage/string/trie.md
+// 完整示例：cp-stl/examples/string/trie.cpp
 #include <array>
 #include <cassert>
 #include <string_view>

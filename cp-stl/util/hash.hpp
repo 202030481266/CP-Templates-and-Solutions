@@ -1,4 +1,6 @@
 #pragma once
+// 使用说明：cp-stl/docs/usage/util/hash.md
+// 完整示例：cp-stl/examples/util/hash.cpp
 #include <chrono>
 #include <cstddef>
 #include <cstdint>

@@ -1,4 +1,6 @@
 #pragma once
+// 使用说明：cp-stl/docs/usage/graph/shortest_path.md
+// 完整示例：cp-stl/examples/graph/shortest_path.cpp
 #include <cassert>
 #include <deque>
 #include <functional>

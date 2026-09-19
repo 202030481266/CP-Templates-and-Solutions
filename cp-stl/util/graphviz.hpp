@@ -1,4 +1,6 @@
 #pragma once
+// 使用说明：cp-stl/docs/usage/util/graphviz.md
+// 完整示例：cp-stl/examples/util/graphviz.cpp
 
 #include <cstddef>
 #include <iostream>

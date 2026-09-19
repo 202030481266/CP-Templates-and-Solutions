@@ -1,4 +1,6 @@
 #pragma once
+// 使用说明：cp-stl/docs/usage/math/combinatorics.md
+// 完整示例：cp-stl/examples/math/combinatorics.cpp
 #include <cassert>
 #include <vector>
 #include "modint.hpp"

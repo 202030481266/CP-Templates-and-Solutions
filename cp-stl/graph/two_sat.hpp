@@ -1,4 +1,6 @@
 #pragma once
+// 使用说明：cp-stl/docs/usage/graph/two_sat.md
+// 完整示例：cp-stl/examples/graph/two_sat.cpp
 #include <cassert>
 #include <optional>
 #include <vector>

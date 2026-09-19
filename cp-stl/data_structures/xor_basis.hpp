@@ -1,4 +1,6 @@
 #pragma once
+// 使用说明：cp-stl/docs/usage/data_structures/xor_basis.md
+// 完整示例：cp-stl/examples/data_structures/xor_basis.cpp
 #include <algorithm>
 #include <array>
 #include <cstdint>

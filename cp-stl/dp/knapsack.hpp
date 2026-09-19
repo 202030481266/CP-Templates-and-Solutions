@@ -1,4 +1,6 @@
 #pragma once
+// 使用说明：cp-stl/docs/usage/dp/knapsack.md
+// 完整示例：cp-stl/examples/dp/knapsack.cpp
 #include <algorithm>
 #include <cassert>
 #include <vector>

@@ -1,4 +1,6 @@
 #pragma once
+// 使用说明：cp-stl/docs/usage/string/manacher.md
+// 完整示例：cp-stl/examples/string/manacher.cpp
 #include <algorithm>
 #include <string_view>
 #include <utility>

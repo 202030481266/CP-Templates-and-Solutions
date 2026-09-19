@@ -1,4 +1,6 @@
 #pragma once
+// 使用说明：cp-stl/docs/usage/math/modint.md
+// 完整示例：cp-stl/examples/math/modint.cpp
 #include <cassert>
 #include <istream>
 #include <ostream>

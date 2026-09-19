@@ -1,4 +1,6 @@
 #pragma once
+// 使用说明：cp-stl/docs/usage/util/random.md
+// 完整示例：cp-stl/examples/util/random.cpp
 #include <algorithm>
 #include <cassert>
 #include <chrono>

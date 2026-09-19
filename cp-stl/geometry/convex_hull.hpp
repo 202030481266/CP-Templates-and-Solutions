@@ -1,4 +1,6 @@
 #pragma once
+// 使用说明：cp-stl/docs/usage/geometry/convex_hull.md
+// 完整示例：cp-stl/examples/geometry/convex_hull.cpp
 #include <algorithm>
 #include <vector>
 

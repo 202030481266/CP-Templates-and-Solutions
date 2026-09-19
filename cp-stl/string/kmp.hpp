@@ -1,4 +1,6 @@
 #pragma once
+// 使用说明：cp-stl/docs/usage/string/kmp.md
+// 完整示例：cp-stl/examples/string/kmp.cpp
 #include <numeric>
 #include <string_view>
 #include <vector>

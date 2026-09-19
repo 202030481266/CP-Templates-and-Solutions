@@ -1,4 +1,6 @@
 #pragma once
+// 使用说明：cp-stl/docs/usage/util/debug.md
+// 完整示例：cp-stl/examples/util/debug.cpp
 #include <iostream>
 #include <iterator>
 #include <string_view>

@@ -1,4 +1,6 @@
 #pragma once
+// 使用说明：cp-stl/docs/usage/graph/topological_sort.md
+// 完整示例：cp-stl/examples/graph/topological_sort.cpp
 #include <vector>
 
 namespace cp {

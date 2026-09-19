@@ -1,3 +1,5 @@
+// 使用说明：cp-stl/docs/usage/template.md
+// 完整示例：cp-stl/examples/template.cpp
 #include <bits/stdc++.h>
 using namespace std;
 

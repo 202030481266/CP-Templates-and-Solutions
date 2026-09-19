@@ -1,4 +1,6 @@
 #pragma once
+// 使用说明：cp-stl/docs/usage/graph/lca.md
+// 完整示例：cp-stl/examples/graph/lca.cpp
 #include <algorithm>
 #include <cassert>
 #include <vector>

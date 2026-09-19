@@ -1,4 +1,6 @@
 #pragma once
+// 使用说明：cp-stl/docs/usage/data_structures/lazy_segment_tree.md
+// 完整示例：cp-stl/examples/data_structures/lazy_segment_tree.cpp
 #include <cassert>
 #include <vector>
 

@@ -1,4 +1,6 @@
 #pragma once
+// 使用说明：cp-stl/docs/usage/graph/scc.md
+// 完整示例：cp-stl/examples/graph/scc.cpp
 #include <algorithm>
 #include <vector>
 

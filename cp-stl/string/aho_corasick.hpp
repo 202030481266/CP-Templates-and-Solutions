@@ -1,4 +1,6 @@
 #pragma once
+// 使用说明：cp-stl/docs/usage/string/aho_corasick.md
+// 完整示例：cp-stl/examples/string/aho_corasick.cpp
 #include <array>
 #include <cassert>
 #include <string_view>

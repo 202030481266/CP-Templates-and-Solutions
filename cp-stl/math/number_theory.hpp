@@ -1,4 +1,6 @@
 #pragma once
+// 使用说明：cp-stl/docs/usage/math/number_theory.md
+// 完整示例：cp-stl/examples/math/number_theory.cpp
 #include <cassert>
 #include <optional>
 #include <utility>

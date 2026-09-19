@@ -1,4 +1,6 @@
 #pragma once
+// 使用说明：cp-stl/docs/usage/graph/tree_diameter.md
+// 完整示例：cp-stl/examples/graph/tree_diameter.cpp
 #include <algorithm>
 #include <cassert>
 #include <utility>
