@@ -1,0 +1,9 @@
+# yaml-language-server: $schema=https://json.schemastore.org/clangd.json
+# 放到「单文件 C++ 项目」的根目录（例如 D:\CP-Templates-and-Solutions\ ，
+# 或任何一个只放 .cpp、没有 CMakeLists.txt 的练习目录）。
+# 有 CMakeLists.txt 的项目不用放这个，用 compile_commands.json 更准。
+CompileFlags:
+  # 指定驱动，clangd 会用 D:\mingw64 的 g++ 去解析系统头文件
+  Compiler: D:/mingw64/bin/g++.exe
+  # 你常用的语言标准；需要 c++23 就改这里
+  Add: [-std=c++20]
